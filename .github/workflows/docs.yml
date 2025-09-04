@@ -25,6 +25,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -e ".[docs]"
         
+    - name: Configure Git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        
     - name: Deploy documentation
       run: |
         if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
