@@ -63,14 +63,14 @@ async def advanced_usage() -> None:
                 print(f"   {i + 1}. Error: {result}")
             else:
                 # result is a dict, use type narrowing
-                if "data" in result and "results" in result["data"]:
-                    if result["data"]["results"]:
-                        char = result["data"]["results"][0]
+                if "data" in result and "results" in result["data"]:  # type: ignore[operator,index]
+                    if result["data"]["results"]:  # type: ignore[index]
+                        char = result["data"]["results"][0]  # type: ignore[index]
                         print(f"   {i + 1}. {char['name']} (ID: {char['id']})")
                     else:
                         print(f"   {i + 1}. No results found")
                 else:
-                    print(f"   {i + 1}. Health check: {result.get('status', 'Unknown')}")
+                    print(f"   {i + 1}. Health check: {result.get('status', 'Unknown')}")  # type: ignore[union-attr]
 
     # Example 3: Character details analysis
     print("\n📊 Example 3: Character details analysis")

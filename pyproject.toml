@@ -189,6 +189,10 @@ ignore_missing_imports = true
 module = "pytest"
 ignore_missing_imports = true
 
+[[tool.mypy.overrides]]
+module = "httpx"
+ignore_missing_imports = true
+
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = "-ra -q --strict-markers --strict-config"
