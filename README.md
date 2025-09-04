@@ -1,5 +1,5 @@
 # Marvelpyelleng
-
+ell
 
 [![PyPI version](https://badge.fury.io/py/marvelpy.svg)](https://badge.fury.io/py/marvelpy)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -120,7 +120,7 @@ We welcome contributions! Please see our [Contributing Guide](https://jlgranof.g
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
 ## Links
 
