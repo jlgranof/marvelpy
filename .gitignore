@@ -197,6 +197,9 @@ $RECYCLE.BIN/
 # Logs
 *.log
 
+# Local development reference
+commands.md
+
 # Runtime data
 pids
 *.pid

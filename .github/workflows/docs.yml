@@ -2,12 +2,13 @@ name: Build and Deploy Documentation
 
 on:
   push:
+    branches: [ main ]
     tags:
       - 'v*'
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     
     steps:
@@ -24,12 +25,13 @@ jobs:
         python -m pip install --upgrade pip
         pip install -e ".[docs]"
         
-    - name: Build documentation
-      run: mkdocs build
-        
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./site
+    - name: Deploy documentation
+      run: |
+        if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+          mike deploy --push --update-aliases latest
+        elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+          version=${GITHUB_REF#refs/tags/v}
+          mike deploy --push --update-aliases $version latest
+        fi
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

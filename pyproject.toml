@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "marvelpy"
-version = "1.0.0"
+version = "0.1.0"
 description = "A fully-typed Python client for the Marvel Comics API."
 readme = "README.md"
 license = {text = "MIT"}
@@ -74,6 +74,7 @@ docs = [
     "mkdocs-literate-nav>=0.6.0",
     "mkdocs-section-index>=0.3.0",
     "mkdocstrings[python]>=0.20.0",
+    "mike>=1.1.0",
 ]
 
 [project.scripts]
