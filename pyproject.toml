@@ -7,7 +7,7 @@ name = "marvelpy"
 version = "0.1.0"
 description = "A fully-typed Python client for the Marvel Comics API."
 readme = "README.md"
-license = "MIT"
+license = {text = "MIT"}
 authors = [
     { name = "Jeff Granof", email = "jlgranof@icloud.com" }
 ]
@@ -86,7 +86,7 @@ where = ["src"]
 marvelpy = ["py.typed"]
 
 [tool.setuptools.exclude-package-data]
-"*" = ["*.pyc", "*.pyo", "__pycache__", "*.so", ".DS_Store"]
+"*" = ["LICENSE", "*.pyc", "*.pyo", "__pycache__", "*.so", ".DS_Store"]
 
 # Build configuration
 [tool.setuptools]
