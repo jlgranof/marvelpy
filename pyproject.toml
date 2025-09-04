@@ -7,7 +7,7 @@ name = "marvelpy"
 version = "0.2.0"
 description = "A fully-typed Python client for the Marvel Comics API."
 readme = "README.md"
-license = {text = "MIT"}
+license = "MIT"
 authors = [
     { name = "Jeff Granof", email = "jlgranof@icloud.com" }
 ]
