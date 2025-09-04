@@ -120,6 +120,7 @@ nav:
   - Installation: installation.md
   - Quick Start: quickstart.md
   - API Reference:
+    - MarvelClient: api/client.md
     - hello: api/hello.md
   - Contributing: contributing.md
   - Changelog: changelog.md

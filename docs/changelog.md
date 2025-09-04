@@ -8,12 +8,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Full Marvel Comics API client implementation
-- Character search and retrieval
-- Comic book data access
-- Event and series information
+- Comics endpoint support
+- Events and series information
 - Creator and artist data
-- Async/await support throughout
+- Advanced search functionality
+- Response caching
+- Rate limiting management
+
+## [0.2.0] - 2025-01-XX
+
+### Added
+- **MarvelClient** - Full-featured async client for Marvel API
+- **Authentication** - Automatic Marvel API authentication with MD5 hashing
+- **Character Access** - Search and retrieve character information
+- **Error Handling** - Robust retry logic with exponential backoff
+- **HTTP Methods** - GET requests with parameter support
+- **Context Manager** - Async context manager for automatic resource cleanup
+- **Health Check** - API connectivity testing
+- **Type Safety** - Complete type hints throughout the client
+- **Comprehensive Tests** - 85% test coverage with mocked HTTP requests
+- **Documentation** - Full API documentation with examples
+- **Examples** - Working examples with real API integration
+
+### Changed
+- Updated from hello world demo to full API client
+- Enhanced error handling and retry mechanisms
+- Improved documentation structure
+
+### Technical Details
+- Async/await patterns throughout
+- httpx for HTTP requests
+- Automatic authentication parameter generation
+- Configurable timeouts and retry limits
+- Connection pooling and resource management
 
 ## [0.1.0] - 2024-01-XX
 

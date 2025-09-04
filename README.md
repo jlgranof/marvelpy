@@ -27,50 +27,68 @@ pip install marvelpy
 ### Basic Usage
 
 ```python
-import marvelpy
+import asyncio
+from marvelpy import MarvelClient
 
-# Get a hello message
-message = marvelpy.hello_world()
-print(message)  # "Hello from Marvelpy!"
+async def main():
+    async with MarvelClient("your_public_key", "your_private_key") as client:
+        # Get characters
+        characters = await client.get_characters(params={"limit": 5})
+        print(f"Found {characters['data']['count']} characters")
+        
+        # Search for specific characters
+        iron_man = await client.get_characters(params={"name": "iron man"})
+        print(f"Iron Man: {iron_man['data']['results'][0]['name']}")
+
+asyncio.run(main())
 ```
 
 ## What's Available
 
-Currently, Marvelpy v0.1.0 includes:
+Currently, Marvelpy v0.2.0 includes:
 
-- **Hello World Function** - Basic demonstration functionality
-- **Complete test suite** - 100% test coverage
-- **Type safety** - Full type hints throughout
-- **Documentation** - Comprehensive docs with examples
+- **MarvelClient** - Full-featured async client for Marvel API
+- **Authentication** - Automatic Marvel API authentication
+- **Character Access** - Search and retrieve character information
+- **Error Handling** - Robust retry logic and error management
+- **Type Safety** - Complete type hints throughout
+- **Test Suite** - Comprehensive tests with 85% coverage
+- **Documentation** - Full API documentation with examples
 
 ## Coming Soon
 
-The full Marvel Comics API client will include:
+Future versions will include:
 
-- **Characters** - Search and retrieve character information
 - **Comics** - Access comic book data and metadata
 - **Events** - Marvel universe events and storylines
 - **Series** - Comic series information
 - **Stories** - Individual story details
 - **Creators** - Creator and artist information
+- **Advanced Search** - More sophisticated filtering options
+- **Caching** - Built-in response caching
+- **Rate Limiting** - Automatic rate limit management
 
-## Example Future Usage
+## Current Usage Examples
 
 ```python
-# This is planned functionality - not yet implemented
-import marvelpy
+import asyncio
+from marvelpy import MarvelClient
 
-# Initialize the client
-client = marvelpy.MarvelClient(api_key="your_key", private_key="your_private_key")
+async def main():
+    async with MarvelClient("your_public_key", "your_private_key") as client:
+        # Get all characters (with pagination)
+        characters = await client.get_characters(params={"limit": 10})
+        
+        # Search for specific characters
+        heroes = await client.get_characters(params={"name": "iron man"})
+        
+        # Get character by ID
+        character = await client.get("characters/1009368")
+        
+        # Health check
+        status = await client.health_check()
 
-# Search for characters
-characters = await client.characters.search("spider-man")
-
-# Get character details
-spiderman = await client.characters.get(1009610)
-
-# Search comics
-comics = await client.comics.search("amazing spider-man")
+asyncio.run(main())
 ```
 
 ## Requirements
@@ -131,4 +149,4 @@ This project is licensed under the MIT License.
 
 ---
 
-**Note**: This package is currently in early development. The initial release (v0.1.0) includes basic functionality with a hello world example. Full Marvel API integration is coming soon!
+**Note**: This package is actively developed. Version 0.2.0 includes a fully functional MarvelClient with character access, authentication, and comprehensive error handling. More endpoints and features are coming in future versions!
