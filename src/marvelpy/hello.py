@@ -9,13 +9,13 @@ from __future__ import annotations
 
 def hello_world() -> str:
     """Return a hello world message.
-    
+
     This is a simple demonstration function that returns a greeting message.
     It serves as a placeholder for the initial package release.
-    
+
     Returns:
         A greeting message string.
-        
+
     Example:
         >>> hello_world()
         'Hello from Marvelpy!'
