@@ -16,7 +16,7 @@ def run_command(cmd: list[str]) -> None:
         sys.exit(1)
 
 
-def main():
+def main() -> None:
     """Main function."""
     if len(sys.argv) < 2:
         print("Usage: python docs-dev.py <command>")
@@ -26,9 +26,9 @@ def main():
         print("  deploy    - Deploy docs (requires version)")
         print("  version   - Show current version")
         sys.exit(1)
-    
+
     command = sys.argv[1]
-    
+
     if command == "serve":
         run_command(["mkdocs", "serve"])
     elif command == "build":
@@ -46,8 +46,8 @@ def main():
             with open(version_file) as f:
                 content = f.read()
                 # Extract version from __version__ = "0.1.0"
-                for line in content.split('\n'):
-                    if line.startswith('__version__'):
+                for line in content.split("\n"):
+                    if line.startswith("__version__"):
                         version = line.split('"')[1]
                         print(f"Current version: {version}")
                         break

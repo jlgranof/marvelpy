@@ -121,6 +121,9 @@ class MarvelClient:
                     await asyncio.sleep(2**attempt)
                     continue
                 raise
+        
+        # This should never be reached, but mypy needs it
+        raise httpx.RequestError("Max retries exceeded")
 
     async def get(
         self,

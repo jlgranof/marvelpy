@@ -173,6 +173,22 @@ strict_equality = true
 module = "tests.*"
 disallow_untyped_defs = false
 
+[[tool.mypy.overrides]]
+module = "examples.*"
+disallow_untyped_defs = false
+
+[[tool.mypy.overrides]]
+module = "docs-dev"
+disallow_untyped_defs = false
+
+[[tool.mypy.overrides]]
+module = "dotenv"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "pytest"
+ignore_missing_imports = true
+
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = "-ra -q --strict-markers --strict-config"
