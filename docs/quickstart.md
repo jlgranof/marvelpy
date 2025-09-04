@@ -41,7 +41,7 @@ async def get_characters():
         # Get a list of characters
         characters = await client.get_characters(params={"limit": 5})
         print(f"Found {characters['data']['count']} characters")
-        
+
         # Show first character
         if characters['data']['results']:
             first_char = characters['data']['results'][0]
@@ -57,7 +57,7 @@ async def search_characters():
     async with MarvelClient("your_public_key", "your_private_key") as client:
         # Search for Iron Man
         results = await client.get_characters(params={"name": "iron man"})
-        
+
         if results['data']['results']:
             iron_man = results['data']['results'][0]
             print(f"Found: {iron_man['name']} (ID: {iron_man['id']})")

@@ -35,7 +35,7 @@ async def main():
         # Get characters
         characters = await client.get_characters(params={"limit": 5})
         print(f"Found {characters['data']['count']} characters")
-        
+
         # Search for specific characters
         iron_man = await client.get_characters(params={"name": "iron man"})
         print(f"Iron Man: {iron_man['data']['results'][0]['name']}")
@@ -78,13 +78,13 @@ async def main():
     async with MarvelClient("your_public_key", "your_private_key") as client:
         # Get all characters (with pagination)
         characters = await client.get_characters(params={"limit": 10})
-        
+
         # Search for specific characters
         heroes = await client.get_characters(params={"name": "iron man"})
-        
+
         # Get character by ID
         character = await client.get("characters/1009368")
-        
+
         # Health check
         status = await client.health_check()
 

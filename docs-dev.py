@@ -4,9 +4,10 @@
 import subprocess
 import sys
 from pathlib import Path
+from typing import List
 
 
-def run_command(cmd: list[str]) -> None:
+def run_command(cmd: List[str]) -> None:
     """Run a command and handle errors."""
     try:
         result = subprocess.run(cmd, check=True, capture_output=True, text=True)

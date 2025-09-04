@@ -21,7 +21,7 @@ async def main():
         # Get characters
         characters = await client.get_characters(params={"limit": 5})
         print(f"Found {characters['data']['count']} characters")
-        
+
         # Search for specific characters
         iron_man = await client.get_characters(params={"name": "iron man"})
         print(f"Iron Man: {iron_man['data']['results'][0]['name']}")

@@ -145,11 +145,11 @@ async def main():
         # Health check
         status = await client.health_check()
         print(f"API Status: {status['status']}")
-        
+
         # Get characters
         characters = await client.get_characters(params={"limit": 5})
         print(f"Found {characters['data']['count']} characters")
-        
+
         # Search for Iron Man
         iron_man = await client.get_characters(params={"name": "iron man"})
         if iron_man['data']['results']:
@@ -169,7 +169,7 @@ async def main():
         timeout=60.0,  # 60 second timeout
         max_retries=5  # 5 retry attempts
     )
-    
+
     try:
         characters = await client.get_characters()
         print(f"Found {characters['data']['count']} characters")
