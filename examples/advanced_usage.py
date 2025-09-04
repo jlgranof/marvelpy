@@ -2,7 +2,6 @@
 
 import asyncio
 import os
-from typing import Any, Dict, Union
 
 from marvelpy import MarvelClient
 
@@ -63,16 +62,15 @@ async def advanced_usage() -> None:
             if isinstance(result, Exception):
                 print(f"   {i + 1}. Error: {result}")
             else:
-                # result is a dict, cast it for mypy
-                result_dict: Dict[str, Any] = result
-                if "data" in result_dict and "results" in result_dict["data"]:
-                    if result_dict["data"]["results"]:
-                        char = result_dict["data"]["results"][0]
+                # result is a dict, use type narrowing
+                if "data" in result and "results" in result["data"]:
+                    if result["data"]["results"]:
+                        char = result["data"]["results"][0]
                         print(f"   {i + 1}. {char['name']} (ID: {char['id']})")
                     else:
                         print(f"   {i + 1}. No results found")
                 else:
-                    print(f"   {i + 1}. Health check: {result_dict.get('status', 'Unknown')}")
+                    print(f"   {i + 1}. Health check: {result.get('status', 'Unknown')}")
 
     # Example 3: Character details analysis
     print("\n📊 Example 3: Character details analysis")
