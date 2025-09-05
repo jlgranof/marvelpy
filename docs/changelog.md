@@ -1,4 +1,4 @@
- push# Changelog
+# Changelog
 
 All notable changes to this project will be documented in this file.
 
@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Response caching
 - Rate limiting management
 
-## [0.2.1] - 2025-01-XX
+## [0.2.1] - 2025-09-04
 
 ### Fixed
 - **CI/CD Pipeline** - Fixed all pre-commit hook issues and GitHub Actions permissions
@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated all version references from 0.2.0 to 0.2.1 across the repository
 
-## [0.2.0] - 2025-01-XX
+## [0.2.0] - 2025-09-04
 
 ### Added
 - **MarvelClient** - Full-featured async client for Marvel API
@@ -54,7 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Configurable timeouts and retry limits
 - Connection pooling and resource management
 
-## [0.1.0] - 2024-01-XX
+## [0.1.0] - 2024-09-04
 
 ### Added
 - Initial package structure
