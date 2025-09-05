@@ -9,21 +9,58 @@ from marvelpy.models.base import BaseListResponse, BaseModel, BaseResponse, Data
 
 
 class TestBaseModel:
-    """Test cases for BaseModel."""
+    """Test cases for BaseModel class.
+
+    This test class verifies the functionality of the BaseModel class,
+    which serves as the foundation for all Marvel API data models.
+    Tests cover basic instantiation, field validation, and configuration
+    behavior.
+    """
 
     def test_base_model_creation(self):
-        """Test BaseModel can be instantiated with data."""
+        """Test BaseModel can be instantiated with default configuration.
+
+        This test verifies that BaseModel can be created without any
+        arguments and maintains proper inheritance from PydanticBaseModel.
+        It ensures the base configuration is applied correctly.
+
+        Expected behavior:
+            - Model can be instantiated without arguments
+            - Model is an instance of BaseModel
+            - Model has proper Pydantic configuration
+        """
         model = BaseModel()
         assert isinstance(model, BaseModel)
 
     def test_base_model_extra_fields_allowed(self):
-        """Test BaseModel allows extra fields."""
+        """Test BaseModel allows extra fields from API responses.
+
+        This test verifies that the extra="allow" configuration works
+        correctly, allowing fields that aren't defined in the model schema
+        to be included. This is crucial for API compatibility as Marvel
+        may add new fields without breaking existing clients.
+
+        Expected behavior:
+            - Extra fields can be passed during instantiation
+            - Extra fields are accessible as attributes
+            - Extra fields maintain their original values
+        """
         model = BaseModel(extra_field="test_value")
         assert hasattr(model, "extra_field")
         assert model.extra_field == "test_value"
 
     def test_base_model_validation_assignment(self):
-        """Test BaseModel validates assignment."""
+        """Test BaseModel validates field assignments after creation.
+
+        This test verifies that the validate_assignment=True configuration
+        works correctly, ensuring that any field assignments after model
+        creation are properly validated according to the field definitions.
+
+        Expected behavior:
+            - Field assignments after creation are allowed
+            - Extra fields can be assigned dynamically
+            - Assigned values are stored correctly
+        """
         model = BaseModel()
         # This should not raise an error due to extra="allow"
         model.extra_field = "test"
@@ -31,10 +68,25 @@ class TestBaseModel:
 
 
 class TestDataContainer:
-    """Test cases for DataContainer."""
+    """Test cases for DataContainer class.
+
+    This test class verifies the functionality of the DataContainer class,
+    which encapsulates pagination metadata and results for Marvel API
+    list responses. Tests cover creation, validation, and edge cases.
+    """
 
     def test_data_container_creation(self):
-        """Test DataContainer can be created with required fields."""
+        """Test DataContainer can be created with all required fields.
+
+        This test verifies that DataContainer properly validates and stores
+        pagination metadata and results list. It ensures the Marvel API's
+        standard pagination structure is correctly modeled.
+
+        Expected behavior:
+            - All required fields (offset, limit, total, count, results) are accepted
+            - Results list can contain any type of data
+            - Field values are stored and accessible as expected
+        """
         container: DataContainer[str] = DataContainer(
             offset=0, limit=20, total=100, count=20, results=["item1", "item2"]
         )
@@ -46,12 +98,32 @@ class TestDataContainer:
         assert container.results == ["item1", "item2"]
 
     def test_data_container_missing_required_fields(self):
-        """Test DataContainer raises ValidationError for missing fields."""
+        """Test DataContainer raises ValidationError for missing required fields.
+
+        This test verifies that DataContainer properly validates all required
+        fields and raises appropriate ValidationError when fields are missing.
+        This ensures data integrity and prevents incomplete pagination data.
+
+        Expected behavior:
+            - ValidationError is raised when required fields are missing
+            - Error message indicates which fields are missing
+            - Model creation fails gracefully with clear error information
+        """
         with pytest.raises(ValidationError):
             DataContainer(offset=0, limit=20)  # Missing total, count, results
 
     def test_data_container_empty_results(self):
-        """Test DataContainer with empty results list."""
+        """Test DataContainer handles empty results list correctly.
+
+        This test verifies that DataContainer can handle edge cases where
+        no results are returned (e.g., when total=0 or when filtering
+        returns no matches). This is important for robust pagination handling.
+
+        Expected behavior:
+            - Empty results list is accepted and stored correctly
+            - Count and total can be zero
+            - Results list is accessible and empty
+        """
         container: DataContainer[str] = DataContainer(
             offset=0, limit=20, total=0, count=0, results=[]
         )
@@ -62,10 +134,25 @@ class TestDataContainer:
 
 
 class TestBaseResponse:
-    """Test cases for BaseResponse."""
+    """Test cases for BaseResponse class.
+
+    This test class verifies the functionality of the BaseResponse class,
+    which wraps single Marvel API items with response metadata. Tests cover
+    creation, field validation, and data type handling.
+    """
 
     def test_base_response_creation(self):
-        """Test BaseResponse can be created with required fields."""
+        """Test BaseResponse can be created with all required fields.
+
+        This test verifies that BaseResponse properly validates and stores
+        all required Marvel API response metadata along with the data payload.
+        It ensures the standard response structure is correctly modeled.
+
+        Expected behavior:
+            - All required fields are accepted and validated
+            - Field aliases work correctly (attributionText, attributionHTML)
+            - Data payload is stored and accessible
+        """
         response: BaseResponse[str] = BaseResponse(
             code=200,
             status="Ok",
@@ -88,7 +175,17 @@ class TestBaseResponse:
         assert response.data == "test_data"
 
     def test_base_response_with_dict_data(self):
-        """Test BaseResponse with dictionary data."""
+        """Test BaseResponse handles dictionary data payload correctly.
+
+        This test verifies that BaseResponse can handle complex data types
+        like dictionaries as the data payload. This is important for
+        Marvel API responses that contain nested object data.
+
+        Expected behavior:
+            - Dictionary data is accepted and stored correctly
+            - Nested dictionary values are accessible
+            - Data type is preserved through serialization
+        """
         data: Dict[str, Any] = {"id": 1, "name": "Test Character"}
         response: BaseResponse[Dict[str, Any]] = BaseResponse(
             code=200,
@@ -105,16 +202,41 @@ class TestBaseResponse:
         assert response.data["name"] == "Test Character"
 
     def test_base_response_missing_required_fields(self):
-        """Test BaseResponse raises ValidationError for missing fields."""
+        """Test BaseResponse raises ValidationError for missing required fields.
+
+        This test verifies that BaseResponse properly validates all required
+        fields and raises appropriate ValidationError when fields are missing.
+        This ensures response integrity and prevents incomplete API responses.
+
+        Expected behavior:
+            - ValidationError is raised when required fields are missing
+            - Error message indicates which fields are missing
+            - Model creation fails gracefully with clear error information
+        """
         with pytest.raises(ValidationError):
             BaseResponse(code=200, status="Ok")  # Missing other required fields
 
 
 class TestBaseListResponse:
-    """Test cases for BaseListResponse."""
+    """Test cases for BaseListResponse class.
+
+    This test class verifies the functionality of the BaseListResponse class,
+    which wraps Marvel API list responses with pagination metadata. Tests
+    cover creation, validation, and DataContainer integration.
+    """
 
     def test_base_list_response_creation(self):
-        """Test BaseListResponse can be created with required fields."""
+        """Test BaseListResponse can be created with all required fields.
+
+        This test verifies that BaseListResponse properly validates and stores
+        all required Marvel API response metadata along with a DataContainer.
+        It ensures the standard list response structure is correctly modeled.
+
+        Expected behavior:
+            - All required fields are accepted and validated
+            - DataContainer is properly integrated
+            - Response metadata is accessible
+        """
         data_container: DataContainer[str] = DataContainer(
             offset=0, limit=20, total=100, count=20, results=["item1", "item2"]
         )
@@ -142,16 +264,43 @@ class TestBaseListResponse:
         assert response.data.results == ["item1", "item2"]
 
     def test_base_list_response_missing_required_fields(self):
-        """Test BaseListResponse raises ValidationError for missing fields."""
+        """Test BaseListResponse raises ValidationError for missing required fields.
+
+        This test verifies that BaseListResponse properly validates all required
+        fields and raises appropriate ValidationError when fields are missing.
+        This ensures list response integrity and prevents incomplete API responses.
+
+        Expected behavior:
+            - ValidationError is raised when required fields are missing
+            - Error message indicates which fields are missing
+            - Model creation fails gracefully with clear error information
+        """
         with pytest.raises(ValidationError):
             BaseListResponse(code=200, status="Ok")  # Missing other required fields
 
 
 class TestGenericTypes:
-    """Test cases for generic type functionality."""
+    """Test cases for generic type functionality.
+
+    This test class verifies that the generic type system works correctly
+    across all base model classes. Tests ensure that type parameters are
+    properly handled and that different data types can be used with the
+    same model structures.
+    """
 
     def test_base_response_generic_type(self):
-        """Test BaseResponse works with different data types."""
+        """Test BaseResponse works with different generic data types.
+
+        This test verifies that BaseResponse's generic type system works
+        correctly with different data types (strings, dictionaries, etc.).
+        This is important for ensuring type safety while maintaining
+        flexibility for different Marvel API response types.
+
+        Expected behavior:
+            - String data is properly typed and accessible
+            - Dictionary data is properly typed and accessible
+            - Type information is preserved through the generic system
+        """
         # Test with string data
         str_response: BaseResponse[str] = BaseResponse(
             code=200,
@@ -177,7 +326,18 @@ class TestGenericTypes:
         assert dict_response.data == {"key": "value"}
 
     def test_data_container_generic_type(self):
-        """Test DataContainer works with different result types."""
+        """Test DataContainer works with different generic result types.
+
+        This test verifies that DataContainer's generic type system works
+        correctly with different result types in the results list. This
+        ensures that pagination works correctly regardless of the data
+        type being paginated.
+
+        Expected behavior:
+            - String results are properly typed and accessible
+            - Dictionary results are properly typed and accessible
+            - Type information is preserved through the generic system
+        """
         # Test with string results
         str_container: DataContainer[str] = DataContainer(
             offset=0, limit=20, total=100, count=2, results=["item1", "item2"]
