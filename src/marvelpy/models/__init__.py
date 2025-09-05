@@ -10,6 +10,19 @@ from .character import (
     SeriesList,
     StoryList,
 )
+from .comic import (
+    CharacterList,
+    Comic,
+    ComicListResponse,
+    ComicResponse,
+    CreatorList,
+)
+from .comic import (
+    EventList as ComicEventList,
+)
+from .comic import (
+    StoryList as ComicStoryList,
+)
 from .common import (
     URL,
     CharacterSummary,
@@ -50,4 +63,12 @@ __all__ = [
     "StoryList",
     "EventList",
     "SeriesList",
+    # Comic models
+    "Comic",
+    "ComicResponse",
+    "ComicListResponse",
+    "CharacterList",
+    "CreatorList",
+    "ComicEventList",
+    "ComicStoryList",
 ]
