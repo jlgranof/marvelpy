@@ -56,6 +56,26 @@ from .event import (
 from .event import (
     StoryList as EventStoryList,
 )
+from .series import (
+    CharacterList as SeriesCharacterList,
+)
+from .series import (
+    ComicList as SeriesComicList,
+)
+from .series import (
+    CreatorList as SeriesCreatorList,
+)
+from .series import (
+    EventList as SeriesEventList,
+)
+from .series import (
+    Series,
+    SeriesListResponse,
+    SeriesResponse,
+)
+from .series import (
+    StoryList as SeriesStoryList,
+)
 
 __all__ = [
     # Base models
@@ -100,4 +120,13 @@ __all__ = [
     "EventCreatorList",
     "EventSeriesList",
     "EventStoryList",
+    # Series models
+    "Series",
+    "SeriesResponse",
+    "SeriesListResponse",
+    "SeriesCharacterList",
+    "SeriesComicList",
+    "SeriesCreatorList",
+    "SeriesEventList",
+    "SeriesStoryList",
 ]
