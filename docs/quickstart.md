@@ -79,7 +79,7 @@ asyncio.run(check_api())
 
 ## What's Available
 
-Currently, Marvelpy v0.2.0 includes:
+Currently, Marvelpy v0.2.1 includes:
 
 - **MarvelClient** - Full-featured async client for Marvel API
 - **Authentication** - Automatic Marvel API authentication

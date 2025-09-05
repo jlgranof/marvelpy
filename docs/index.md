@@ -43,7 +43,7 @@ pip install marvelpy
 
 ## Development Status
 
-**Current Version: v0.2.0**
+**Current Version: v0.2.1**
 
 This package now includes a fully functional MarvelClient with character access, authentication, and comprehensive error handling.
 

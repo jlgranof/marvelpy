@@ -44,7 +44,7 @@ asyncio.run(main())
 
 ## What's Available
 
-Currently, Marvelpy v0.2.0 includes:
+Currently, Marvelpy v0.2.1 includes:
 
 - **MarvelClient** - Full-featured async client for Marvel API
 - **Authentication** - Automatic Marvel API authentication
@@ -148,4 +148,4 @@ This project is licensed under the MIT License.
 
 ---
 
-**Note**: This package is actively developed. Version 0.2.0 includes a fully functional MarvelClient with character access, authentication, and comprehensive error handling. More endpoints and features are coming in future versions!
+**Note**: This package is actively developed. Version 0.2.1 includes a fully functional MarvelClient with character access, authentication, and comprehensive error handling. More endpoints and features are coming in future versions!

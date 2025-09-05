@@ -15,6 +15,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Response caching
 - Rate limiting management
 
+## [0.2.1] - 2025-01-XX
+
+### Fixed
+- **CI/CD Pipeline** - Fixed all pre-commit hook issues and GitHub Actions permissions
+- **Documentation Deployment** - Resolved GitHub Pages deployment workflow
+- **Code Quality** - Applied comprehensive formatting and type checking fixes
+- **Workflow Cleanup** - Removed corrupted Jekyll workflow that was interfering
+- **README Corruption** - Fixed corrupted README.md title and content
+
+### Changed
+- Updated all version references from 0.2.0 to 0.2.1 across the repository
+
 ## [0.2.0] - 2025-01-XX
 
 ### Added
