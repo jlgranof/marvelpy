@@ -1,6 +1,6 @@
 # Marvelpy Examples
 
-This directory contains examples demonstrating how to use the Marvelpy client.
+This directory contains examples demonstrating how to use the Marvelpy v1.0.0 client with the new type-safe model system.
 
 ## Prerequisites
 
@@ -13,18 +13,31 @@ This directory contains examples demonstrating how to use the Marvelpy client.
 
 ## Examples
 
-### Basic Usage
+### Basic Usage (Type-Safe Models)
 
 ```bash
 python examples/basic_usage.py
 ```
 
 This example demonstrates:
-- Creating a MarvelClient instance
+- Creating a MarvelClient instance with v1.0.0
 - Testing API connection
-- Fetching characters
-- Searching for specific characters
-- Basic error handling
+- Fetching characters with full type safety
+- Using Pydantic v2 models for validation
+- IntelliSense support and type hints
+
+### Models Demo
+
+```bash
+python examples/models_demo.py
+```
+
+This example demonstrates:
+- All Marvel API entities (Characters, Comics, Events, Series, Stories, Creators)
+- Type-safe model usage for each entity type
+- Converting API responses to Pydantic v2 models
+- Full async/await support
+- Enterprise-grade error handling
 
 ### Character Search
 
@@ -35,7 +48,7 @@ python examples/character_search.py
 This example demonstrates:
 - Searching for popular Marvel characters
 - Character filtering and pagination
-- Handling search results
+- Handling search results with type safety
 - Character metadata analysis
 
 ### Error Handling
@@ -46,7 +59,7 @@ python examples/error_handling.py
 
 This example demonstrates:
 - Valid and invalid API requests
-- Error handling patterns
+- Error handling patterns with type-safe models
 - Timeout configuration
 - Health check functionality
 
@@ -59,7 +72,7 @@ python examples/advanced_usage.py
 This example demonstrates:
 - Custom client configuration
 - Concurrent request handling
-- Character details analysis
+- Character details analysis with models
 - Pagination patterns
 
 ## Running Examples
