@@ -1,6 +1,15 @@
 """Marvel API data models."""
 
 from .base import BaseListResponse, BaseModel, BaseResponse, DataContainer
+from .character import (
+    Character,
+    CharacterListResponse,
+    CharacterResponse,
+    ComicList,
+    EventList,
+    SeriesList,
+    StoryList,
+)
 from .common import (
     URL,
     CharacterSummary,
@@ -33,4 +42,12 @@ __all__ = [
     "EventSummary",
     "SeriesSummary",
     "ComicSummary",
+    # Character models
+    "Character",
+    "CharacterResponse",
+    "CharacterListResponse",
+    "ComicList",
+    "StoryList",
+    "EventList",
+    "SeriesList",
 ]
