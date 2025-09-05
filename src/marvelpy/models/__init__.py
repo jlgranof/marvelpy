@@ -36,6 +36,26 @@ from .common import (
     StorySummary,
     TextObject,
 )
+from .creator import (
+    CharacterList as CreatorCharacterList,
+)
+from .creator import (
+    ComicList as CreatorComicList,
+)
+from .creator import (
+    Creator,
+    CreatorListResponse,
+    CreatorResponse,
+)
+from .creator import (
+    EventList as CreatorEventList,
+)
+from .creator import (
+    SeriesList as CreatorSeriesList,
+)
+from .creator import (
+    StoryList as CreatorStoryList,
+)
 from .event import (
     CharacterList as EventCharacterList,
 )
@@ -158,4 +178,13 @@ __all__ = [
     "StoryCreatorList",
     "StoryEventList",
     "StorySeriesList",
+    # Creator models
+    "Creator",
+    "CreatorResponse",
+    "CreatorListResponse",
+    "CreatorCharacterList",
+    "CreatorComicList",
+    "CreatorEventList",
+    "CreatorSeriesList",
+    "CreatorStoryList",
 ]
