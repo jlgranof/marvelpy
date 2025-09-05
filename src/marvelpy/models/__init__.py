@@ -36,6 +36,26 @@ from .common import (
     StorySummary,
     TextObject,
 )
+from .event import (
+    CharacterList as EventCharacterList,
+)
+from .event import (
+    ComicList as EventComicList,
+)
+from .event import (
+    CreatorList as EventCreatorList,
+)
+from .event import (
+    Event,
+    EventListResponse,
+    EventResponse,
+)
+from .event import (
+    SeriesList as EventSeriesList,
+)
+from .event import (
+    StoryList as EventStoryList,
+)
 
 __all__ = [
     # Base models
@@ -71,4 +91,13 @@ __all__ = [
     "CreatorList",
     "ComicEventList",
     "ComicStoryList",
+    # Event models
+    "Event",
+    "EventResponse",
+    "EventListResponse",
+    "EventCharacterList",
+    "EventComicList",
+    "EventCreatorList",
+    "EventSeriesList",
+    "EventStoryList",
 ]
