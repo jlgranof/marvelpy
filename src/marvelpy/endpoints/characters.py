@@ -119,13 +119,13 @@ class CharactersEndpoint(BaseEndpoint):
         if order_by is not None:
             filters["orderBy"] = order_by
 
-        result = await self._make_request(
-            "GET",
+        return await self.list(
             "/v1/public/characters",
-            params=filters,
-            response_model=CharacterListResponse,
+            CharacterListResponse,
+            limit=limit,
+            offset=offset,
+            **filters,
         )
-        return result  # type: ignore[return-value]
 
     async def get_comics(
         self,
@@ -257,13 +257,15 @@ class CharactersEndpoint(BaseEndpoint):
         if contains is not None:
             filters["contains"] = contains
 
-        result = await self._make_request(
-            "GET",
-            f"/v1/public/characters/{character_id}/comics",
-            params=filters,
-            response_model=ComicListResponse,
+        return await self.get_related(
+            "/v1/public/characters",
+            character_id,
+            "comics",
+            ComicListResponse,
+            limit=limit,
+            offset=offset,
+            **filters,
         )
-        return result  # type: ignore[return-value]
 
     async def get_events(
         self,
@@ -326,13 +328,15 @@ class CharactersEndpoint(BaseEndpoint):
         if order_by is not None:
             filters["orderBy"] = order_by
 
-        result = await self._make_request(
-            "GET",
-            f"/v1/public/characters/{character_id}/events",
-            params=filters,
-            response_model=EventListResponse,
+        return await self.get_related(
+            "/v1/public/characters",
+            character_id,
+            "events",
+            EventListResponse,
+            limit=limit,
+            offset=offset,
+            **filters,
         )
-        return result  # type: ignore[return-value]
 
     async def get_series(
         self,
@@ -407,13 +411,15 @@ class CharactersEndpoint(BaseEndpoint):
         if order_by is not None:
             filters["orderBy"] = order_by
 
-        result = await self._make_request(
-            "GET",
-            f"/v1/public/characters/{character_id}/series",
-            params=filters,
-            response_model=SeriesListResponse,
+        return await self.get_related(
+            "/v1/public/characters",
+            character_id,
+            "series",
+            SeriesListResponse,
+            limit=limit,
+            offset=offset,
+            **filters,
         )
-        return result  # type: ignore[return-value]
 
     async def get_stories(
         self,
@@ -468,10 +474,12 @@ class CharactersEndpoint(BaseEndpoint):
         if order_by is not None:
             filters["orderBy"] = order_by
 
-        result = await self._make_request(
-            "GET",
-            f"/v1/public/characters/{character_id}/stories",
-            params=filters,
-            response_model=StoryListResponse,
+        return await self.get_related(
+            "/v1/public/characters",
+            character_id,
+            "stories",
+            StoryListResponse,
+            limit=limit,
+            offset=offset,
+            **filters,
         )
-        return result  # type: ignore[return-value]
