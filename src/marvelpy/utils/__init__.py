@@ -20,8 +20,6 @@ from .exceptions import (
 )
 
 __all__ = [
-    # Authentication utilities
-    "generate_auth_params",
     # Exception classes
     "MarvelAPIError",
     "MarvelAuthenticationError",
@@ -34,6 +32,8 @@ __all__ = [
     "classify_http_error",
     "create_marvel_error",
     "format_error_message",
+    # Authentication utilities
+    "generate_auth_params",
     "handle_httpx_error",
     "log_error",
     "retry_with_backoff",
