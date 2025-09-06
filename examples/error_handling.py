@@ -31,15 +31,15 @@ async def demonstrate_error_handling() -> None:
             # Test 1: Valid request
             print("\n✅ Test 1: Valid request")
             try:
-                characters = await client.get_characters(params={"limit": 1})
-                print(f"   Success: Found {characters['data']['count']} character")
+                characters = await client.list_characters(limit=1)
+                print(f"   Success: Found {characters.data.count} character")
             except Exception as e:
                 print(f"   Error: {e}")
 
             # Test 2: Non-existent character ID
             print("\n❌ Test 2: Non-existent character ID")
             try:
-                result = await client.get("characters/999999999")
+                result = await client.get_character(999999999)
                 print(f"   Unexpected success: {result}")
             except Exception as e:
                 print(f"   Expected error: {type(e).__name__}")
@@ -47,7 +47,8 @@ async def demonstrate_error_handling() -> None:
             # Test 3: Invalid endpoint
             print("\n❌ Test 3: Invalid endpoint")
             try:
-                result = await client.get("invalid/endpoint")
+                # This would be an invalid method call
+                result = await client.get_character(-1)
                 print(f"   Unexpected success: {result}")
             except Exception as e:
                 print(f"   Expected error: {type(e).__name__}")
@@ -55,9 +56,10 @@ async def demonstrate_error_handling() -> None:
             # Test 4: Health check
             print("\n✅ Test 4: Health check")
             try:
-                status = await client.health_check()
-                print(f"   API Status: {status['status']}")
-                print(f"   Copyright: {status['copyright']}")
+                # Test a simple API call instead
+                status = await client.list_characters(limit=1)
+                print("   API Status: Success")
+                print(f"   Found: {status.data.count} characters")
             except Exception as e:
                 print(f"   Error: {e}")
 
@@ -70,7 +72,7 @@ async def demonstrate_error_handling() -> None:
                     private_key,
                     timeout=0.001,  # 1ms timeout
                 )
-                await fast_client.get_characters()
+                await fast_client.list_characters()
                 await fast_client.close()
                 print("   Unexpected success with short timeout")
             except Exception as e:

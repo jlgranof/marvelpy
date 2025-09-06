@@ -2,9 +2,12 @@
 
 import asyncio
 import os
+from typing import TYPE_CHECKING
 
 from marvelpy import MarvelClient
-from marvelpy.models import Character, CharacterListResponse
+
+if TYPE_CHECKING:
+    from marvelpy.models import Character
 
 # Try to load from .env file if it exists
 try:
@@ -29,15 +32,9 @@ async def main() -> None:
     # Create client instance
     async with MarvelClient(public_key, private_key) as client:
         try:
-            # Test health check
-            print("🔍 Testing API connection...")
-            health = await client.health_check()
-            print(f"✅ API Status: {health['status']}")
-
-            # Get some characters and convert to type-safe models
+            # Get some characters with type-safe models
             print("\n🦸 Fetching characters with type-safe models...")
-            characters_data = await client.get_characters(params={"limit": 5})
-            response: CharacterListResponse = CharacterListResponse(**characters_data)
+            response = await client.list_characters(limit=5)
             print(f"Found {response.data.count} characters")
 
             # Show first character details with type hints
@@ -55,8 +52,7 @@ async def main() -> None:
 
             # Search for specific characters with type safety
             print("\n🔍 Searching for Iron Man with type-safe models...")
-            search_data = await client.get_characters(params={"name": "iron man"})
-            search_response: CharacterListResponse = CharacterListResponse(**search_data)
+            search_response = await client.search_characters("iron man", limit=5)
             print(f"Found {search_response.data.count} characters matching 'iron man'")
 
             if search_response.data.results:

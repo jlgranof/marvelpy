@@ -42,14 +42,14 @@ async def search_characters() -> None:
             for hero in popular_heroes:
                 print(f"\n🔍 Searching for: {hero}")
                 try:
-                    results = await client.get_characters(params={"name": hero})
+                    results = await client.search_characters(hero, limit=1)
 
-                    if results["data"]["results"]:
-                        character = results["data"]["results"][0]
-                        print(f"✅ Found: {character['name']} (ID: {character['id']})")
-                        print(f"   Comics: {character['comics']['available']}")
-                        print(f"   Series: {character['series']['available']}")
-                        print(f"   Stories: {character['stories']['available']}")
+                    if results.data.results:
+                        character = results.data.results[0]
+                        print(f"✅ Found: {character.name} (ID: {character.id})")
+                        print(f"   Comics: {character.comics.available}")
+                        print(f"   Series: {character.series.available}")
+                        print(f"   Stories: {character.stories.available}")
                     else:
                         print(f"❌ No results found for '{hero}'")
 
@@ -60,12 +60,12 @@ async def search_characters() -> None:
             print("\n📄 Getting characters with pagination...")
             print("=" * 50)
 
-            characters = await client.get_characters(params={"limit": 10, "offset": 0})
-            print(f"✅ Found {characters['data']['count']} characters (showing first 10)")
-            print(f"📊 Total available: {characters['data']['total']}")
+            characters = await client.list_characters(limit=10, offset=0)
+            print(f"✅ Found {characters.data.count} characters (showing first 10)")
+            print(f"📊 Total available: {characters.data.total}")
 
-            for i, char in enumerate(characters["data"]["results"][:5], 1):
-                print(f"{i}. {char['name']} (ID: {char['id']})")
+            for i, char in enumerate(characters.data.results[:5], 1):
+                print(f"{i}. {char.name} (ID: {char.id})")
 
         except Exception as e:
             print(f"❌ Error: {e}")
