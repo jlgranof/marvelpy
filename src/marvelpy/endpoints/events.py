@@ -14,10 +14,10 @@ from marvelpy.models.creator import CreatorListResponse
 from marvelpy.models.event import (
     Event,
     EventListResponse,
-    EventResponse,
 )
 from marvelpy.models.series import SeriesListResponse
 from marvelpy.models.story import StoryListResponse
+from marvelpy.utils.exceptions import MarvelAPIError
 
 
 class EventsEndpoint(BaseEndpoint):
@@ -57,9 +57,11 @@ class EventsEndpoint(BaseEndpoint):
         response = await self._make_request(
             "GET",
             f"/v1/public/events/{event_id}",
-            response_model=EventResponse,
+            response_model=EventListResponse,
         )
-        return response.data  # type: ignore[attr-defined,no-any-return]
+        if not response.data.results:  # type: ignore[attr-defined]
+            raise MarvelAPIError(f"Event with ID {event_id} not found")
+        return response.data.results[0]  # type: ignore[no-any-return,attr-defined]
 
     async def list_events(
         self,

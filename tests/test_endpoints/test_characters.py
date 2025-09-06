@@ -10,7 +10,7 @@ from unittest.mock import Mock, patch
 import pytest
 
 from marvelpy.endpoints.characters import CharactersEndpoint
-from marvelpy.models.character import CharacterListResponse, CharacterResponse
+from marvelpy.models.character import CharacterListResponse
 from marvelpy.models.comic import ComicListResponse
 from marvelpy.models.event import EventListResponse
 from marvelpy.models.series import SeriesListResponse
@@ -49,8 +49,11 @@ class TestCharactersEndpoint:
         mock_character.id = 1011334
         mock_character.name = "Iron Man"
 
+        mock_data = Mock()
+        mock_data.results = [mock_character]
+
         mock_response = Mock()
-        mock_response.data = mock_character
+        mock_response.data = mock_data
 
         with patch.object(
             endpoint, "_make_request", return_value=mock_response
@@ -60,7 +63,7 @@ class TestCharactersEndpoint:
             mock_make_request.assert_called_once_with(
                 "GET",
                 "/v1/public/characters/1011334",
-                response_model=CharacterResponse,
+                response_model=CharacterListResponse,
             )
             assert result == mock_character
 

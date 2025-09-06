@@ -15,9 +15,9 @@ from marvelpy.models.event import EventListResponse
 from marvelpy.models.series import (
     Series,
     SeriesListResponse,
-    SeriesResponse,
 )
 from marvelpy.models.story import StoryListResponse
+from marvelpy.utils.exceptions import MarvelAPIError
 
 
 class SeriesEndpoint(BaseEndpoint):
@@ -57,9 +57,11 @@ class SeriesEndpoint(BaseEndpoint):
         response = await self._make_request(
             "GET",
             f"/v1/public/series/{series_id}",
-            response_model=SeriesResponse,
+            response_model=SeriesListResponse,
         )
-        return response.data  # type: ignore[attr-defined,no-any-return]
+        if not response.data.results:  # type: ignore[attr-defined]
+            raise MarvelAPIError(f"Series with ID {series_id} not found")
+        return response.data.results[0]  # type: ignore[no-any-return,attr-defined]
 
     async def list_series(
         self,

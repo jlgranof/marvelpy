@@ -41,7 +41,8 @@ from marvelpy.models import Character, CharacterListResponse
 async def get_characters():
     async with MarvelClient("your_public_key", "your_private_key") as client:
         # Get a list of characters with full type safety
-        response: CharacterListResponse = await client.characters.list(limit=5)
+        characters_data = await client.get_characters(params={"limit": 5})
+        response: CharacterListResponse = CharacterListResponse(**characters_data)
         print(f"Found {response.data.count} characters")
 
         # Access character data with full type hints

@@ -36,6 +36,7 @@ class MarvelAPIError(Exception):
         status_code: Optional[int] = None,
         response_data: Optional[Dict[str, Any]] = None,
         request_data: Optional[Dict[str, Any]] = None,
+        **kwargs: Any,
     ) -> None:
         """Initialize the Marvel API error.
 

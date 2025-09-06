@@ -15,7 +15,7 @@ from marvelpy.models.comic import ComicListResponse
 from marvelpy.models.creator import CreatorListResponse
 from marvelpy.models.event import EventListResponse
 from marvelpy.models.series import SeriesListResponse
-from marvelpy.models.story import StoryListResponse, StoryResponse
+from marvelpy.models.story import StoryListResponse
 
 
 class TestStoriesEndpoint:
@@ -50,8 +50,11 @@ class TestStoriesEndpoint:
         mock_story.id = 12345
         mock_story.title = "Cover #1"
 
+        mock_data = Mock()
+        mock_data.results = [mock_story]
+
         mock_response = Mock()
-        mock_response.data = mock_story
+        mock_response.data = mock_data
 
         with patch.object(
             endpoint, "_make_request", return_value=mock_response
@@ -61,7 +64,7 @@ class TestStoriesEndpoint:
             mock_make_request.assert_called_once_with(
                 "GET",
                 "/v1/public/stories/12345",
-                response_model=StoryResponse,
+                response_model=StoryListResponse,
             )
             assert result == mock_story
 

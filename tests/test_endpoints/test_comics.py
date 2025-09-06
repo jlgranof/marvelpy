@@ -11,7 +11,7 @@ import pytest
 
 from marvelpy.endpoints.comics import ComicsEndpoint
 from marvelpy.models.character import CharacterListResponse
-from marvelpy.models.comic import ComicListResponse, ComicResponse
+from marvelpy.models.comic import ComicListResponse
 from marvelpy.models.creator import CreatorListResponse
 from marvelpy.models.event import EventListResponse
 from marvelpy.models.story import StoryListResponse
@@ -49,8 +49,11 @@ class TestComicsEndpoint:
         mock_comic.id = 21366
         mock_comic.title = "Avengers (1963) #1"
 
+        mock_data = Mock()
+        mock_data.results = [mock_comic]
+
         mock_response = Mock()
-        mock_response.data = mock_comic
+        mock_response.data = mock_data
 
         with patch.object(
             endpoint, "_make_request", return_value=mock_response
@@ -60,7 +63,7 @@ class TestComicsEndpoint:
             mock_make_request.assert_called_once_with(
                 "GET",
                 "/v1/public/comics/21366",
-                response_model=ComicResponse,
+                response_model=ComicListResponse,
             )
             assert result == mock_comic
 

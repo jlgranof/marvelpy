@@ -12,7 +12,7 @@ import pytest
 from marvelpy.endpoints.creators import CreatorsEndpoint
 from marvelpy.models.character import CharacterListResponse
 from marvelpy.models.comic import ComicListResponse
-from marvelpy.models.creator import CreatorListResponse, CreatorResponse
+from marvelpy.models.creator import CreatorListResponse
 from marvelpy.models.event import EventListResponse
 from marvelpy.models.series import SeriesListResponse
 from marvelpy.models.story import StoryListResponse
@@ -50,8 +50,11 @@ class TestCreatorsEndpoint:
         mock_creator.id = 30
         mock_creator.full_name = "Stan Lee"
 
+        mock_data = Mock()
+        mock_data.results = [mock_creator]
+
         mock_response = Mock()
-        mock_response.data = mock_creator
+        mock_response.data = mock_data
 
         with patch.object(
             endpoint, "_make_request", return_value=mock_response
@@ -61,7 +64,7 @@ class TestCreatorsEndpoint:
             mock_make_request.assert_called_once_with(
                 "GET",
                 "/v1/public/creators/30",
-                response_model=CreatorResponse,
+                response_model=CreatorListResponse,
             )
             assert result == mock_creator
 

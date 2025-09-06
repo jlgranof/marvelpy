@@ -251,8 +251,8 @@ class Event(BaseModel):
         default_factory=list, description="List of URLs associated with the event"
     )
     modified: str = Field(..., description="Date the event was last modified")
-    start: str = Field(..., description="Start date of the event")
-    end: str = Field(..., description="End date of the event")
+    start: Optional[str] = Field(None, description="Start date of the event")
+    end: Optional[str] = Field(None, description="End date of the event")
     thumbnail: Optional[Image] = Field(None, description="Event thumbnail image")
     comics: ComicList = Field(..., description="Comics that are part of this event")
     stories: StoryList = Field(..., description="Stories that are part of this event")

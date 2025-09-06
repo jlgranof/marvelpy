@@ -243,10 +243,10 @@ class Comic(BaseModel):
     digital_id: int = Field(..., alias="digitalId", description="Digital identifier for the comic")
     title: str = Field(..., description="Title of the comic")
     issue_number: float = Field(..., alias="issueNumber", description="Issue number of the comic")
-    variant_description: str = Field(
-        ..., alias="variantDescription", description="Description of variant covers"
+    variant_description: Optional[str] = Field(
+        None, alias="variantDescription", description="Description of variant covers"
     )
-    description: str = Field(..., description="Description of the comic")
+    description: Optional[str] = Field(None, description="Description of the comic")
     modified: str = Field(..., description="Date the comic was last modified")
     isbn: str = Field(..., description="ISBN of the comic")
     upc: str = Field(..., description="UPC barcode of the comic")

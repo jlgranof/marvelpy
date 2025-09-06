@@ -13,7 +13,7 @@ from marvelpy.endpoints.events import EventsEndpoint
 from marvelpy.models.character import CharacterListResponse
 from marvelpy.models.comic import ComicListResponse
 from marvelpy.models.creator import CreatorListResponse
-from marvelpy.models.event import EventListResponse, EventResponse
+from marvelpy.models.event import EventListResponse
 from marvelpy.models.series import SeriesListResponse
 from marvelpy.models.story import StoryListResponse
 
@@ -50,8 +50,11 @@ class TestEventsEndpoint:
         mock_event.id = 269
         mock_event.title = "Secret Invasion"
 
+        mock_data = Mock()
+        mock_data.results = [mock_event]
+
         mock_response = Mock()
-        mock_response.data = mock_event
+        mock_response.data = mock_data
 
         with patch.object(
             endpoint, "_make_request", return_value=mock_response
@@ -61,7 +64,7 @@ class TestEventsEndpoint:
             mock_make_request.assert_called_once_with(
                 "GET",
                 "/v1/public/events/269",
-                response_model=EventResponse,
+                response_model=EventListResponse,
             )
             assert result == mock_event
 

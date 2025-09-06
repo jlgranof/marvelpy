@@ -11,12 +11,13 @@ from marvelpy.endpoints.base import BaseEndpoint
 from marvelpy.models.character import (
     Character,
     CharacterListResponse,
-    CharacterResponse,
 )
 from marvelpy.models.comic import ComicListResponse
+from marvelpy.models.creator import CreatorListResponse
 from marvelpy.models.event import EventListResponse
 from marvelpy.models.series import SeriesListResponse
 from marvelpy.models.story import StoryListResponse
+from marvelpy.utils.exceptions import MarvelAPIError
 
 
 class CharactersEndpoint(BaseEndpoint):
@@ -56,9 +57,11 @@ class CharactersEndpoint(BaseEndpoint):
         response = await self._make_request(
             "GET",
             f"/v1/public/characters/{character_id}",
-            response_model=CharacterResponse,
+            response_model=CharacterListResponse,
         )
-        return response.data  # type: ignore[attr-defined,no-any-return]
+        if not response.data.results:  # type: ignore[attr-defined]
+            raise MarvelAPIError(f"Character with ID {character_id} not found")
+        return response.data.results[0]  # type: ignore[no-any-return,attr-defined]
 
     async def list_characters(
         self,
@@ -416,6 +419,65 @@ class CharactersEndpoint(BaseEndpoint):
             character_id,
             "series",
             SeriesListResponse,
+            limit=limit,
+            offset=offset,
+            **filters,
+        )
+
+    async def get_creators(
+        self,
+        character_id: int,
+        limit: Optional[int] = None,
+        offset: Optional[int] = None,
+        modified_since: Optional[str] = None,
+        comics: Optional[List[int]] = None,
+        series: Optional[List[int]] = None,
+        events: Optional[List[int]] = None,
+        stories: Optional[List[int]] = None,
+        order_by: Optional[str] = None,
+    ) -> CreatorListResponse:
+        """Get creators who have worked on a specific character.
+
+        Args:
+            character_id: The unique identifier for the character
+            limit: Maximum number of creators to return (default: 20, max: 100)
+            offset: Number of creators to skip (default: 0)
+            modified_since: Return only creators which have been modified since the specified date
+            comics: Return only creators who have worked on the specified comics
+            series: Return only creators who have worked on the specified series
+            events: Return only creators who have worked on the specified events
+            stories: Return only creators who have worked on the specified stories
+            order_by: Order the result set by a field or set of fields
+
+        Returns:
+            CreatorListResponse containing list of creators and metadata
+
+        Raises:
+            MarvelAPIError: For any Marvel API related errors
+
+        Example:
+            >>> creators = await endpoint.get_creators(1009368, limit=5)
+            >>> print(f"Found {creators.data.count} creators")
+        """
+        filters: Dict[str, Any] = {}
+        if modified_since is not None:
+            filters["modifiedSince"] = modified_since
+        if comics is not None:
+            filters["comics"] = comics
+        if series is not None:
+            filters["series"] = series
+        if events is not None:
+            filters["events"] = events
+        if stories is not None:
+            filters["stories"] = stories
+        if order_by is not None:
+            filters["orderBy"] = order_by
+
+        return await self.get_related(
+            "/v1/public/characters",
+            character_id,
+            "creators",
+            CreatorListResponse,
             limit=limit,
             offset=offset,
             **filters,
