@@ -4,10 +4,18 @@ This module contains comprehensive tests for the EventsEndpoint class,
 including all event-related methods and their various parameters.
 """
 
+import logging
 from typing import Any, Dict
 from unittest.mock import Mock, patch
 
 import pytest
+
+# Configure logging for tests
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 from marvelpy.endpoints.events import EventsEndpoint
 from marvelpy.models.character import CharacterListResponse
@@ -23,6 +31,8 @@ class TestEventsEndpoint:
 
     def test_init(self):
         """Test EventsEndpoint initialization."""
+        logger.info("Testing EventsEndpoint initialization")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -36,10 +46,14 @@ class TestEventsEndpoint:
         assert endpoint.private_key == "test_private_key"
         assert endpoint.timeout == 30.0
         assert endpoint.max_retries == 3
+        
+        logger.info("✅ EventsEndpoint initialization test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_event(self):
         """Test getting a single event by ID."""
+        logger.info("Testing getting a single event by ID")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -67,10 +81,14 @@ class TestEventsEndpoint:
                 response_model=EventListResponse,
             )
             assert result == mock_event
+            
+            logger.info("✅ Get event test completed successfully")
 
     @pytest.mark.asyncio
     async def test_list_events_basic(self):
         """Test listing events with basic parameters."""
+        logger.info("Testing listing events with basic parameters")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -96,10 +114,14 @@ class TestEventsEndpoint:
                 EventListResponse,
             )
             assert result == mock_response
+            
+            logger.info("✅ List events basic test completed successfully")
 
     @pytest.mark.asyncio
     async def test_list_events_with_filters(self):
         """Test listing events with various filters."""
+        logger.info("Testing listing events with various filters")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -146,10 +168,14 @@ class TestEventsEndpoint:
                 EventListResponse,
             )
             assert result == mock_response
+            
+            logger.info("✅ List events with filters test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_characters_basic(self):
         """Test getting characters for an event with basic parameters."""
+        logger.info("Testing getting characters for an event with basic parameters")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -175,10 +201,14 @@ class TestEventsEndpoint:
                 CharacterListResponse,
             )
             assert result == mock_response
+            
+            logger.info("✅ Get characters basic test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_characters_with_filters(self):
         """Test getting characters for an event with various filters."""
+        logger.info("Testing getting characters for an event with various filters")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -224,10 +254,14 @@ class TestEventsEndpoint:
                 CharacterListResponse,
             )
             assert result == mock_response
+            
+            logger.info("✅ Get characters with filters test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_comics_basic(self):
         """Test getting comics for an event with basic parameters."""
+        logger.info("Testing getting comics for an event with basic parameters")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -253,10 +287,14 @@ class TestEventsEndpoint:
                 ComicListResponse,
             )
             assert result == mock_response
+            
+            logger.info("✅ Get comics basic test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_comics_with_filters(self):
         """Test getting comics for an event with various filters."""
+        logger.info("Testing getting comics for an event with various filters")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -338,10 +376,14 @@ class TestEventsEndpoint:
                 ComicListResponse,
             )
             assert result == mock_response
+            
+            logger.info("✅ Get comics with filters test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_creators_basic(self):
         """Test getting creators for an event with basic parameters."""
+        logger.info("Testing getting creators for an event with basic parameters")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -367,10 +409,14 @@ class TestEventsEndpoint:
                 CreatorListResponse,
             )
             assert result == mock_response
+            
+            logger.info("✅ Get creators basic test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_creators_with_filters(self):
         """Test getting creators for an event with various filters."""
+        logger.info("Testing getting creators for an event with various filters")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -428,10 +474,14 @@ class TestEventsEndpoint:
                 CreatorListResponse,
             )
             assert result == mock_response
+            
+            logger.info("✅ Get creators with filters test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_series(self):
         """Test getting series for an event."""
+        logger.info("Testing getting series for an event")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -485,10 +535,14 @@ class TestEventsEndpoint:
                 SeriesListResponse,
             )
             assert result == mock_response
+            
+            logger.info("✅ Get series test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_stories(self):
         """Test getting stories for an event."""
+        logger.info("Testing getting stories for an event")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -532,10 +586,14 @@ class TestEventsEndpoint:
                 StoryListResponse,
             )
             assert result == mock_response
+            
+            logger.info("✅ Get stories test completed successfully")
 
     @pytest.mark.asyncio
     async def test_list_events_no_filters(self):
         """Test listing events with no filters (all optional parameters None)."""
+        logger.info("Testing listing events with no filters")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -558,10 +616,14 @@ class TestEventsEndpoint:
                 EventListResponse,
             )
             assert result == mock_response
+            
+            logger.info("✅ List events no filters test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_characters_no_filters(self):
         """Test getting characters with no filters (all optional parameters None)."""
+        logger.info("Testing getting characters with no filters")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -584,10 +646,14 @@ class TestEventsEndpoint:
                 CharacterListResponse,
             )
             assert result == mock_response
+            
+            logger.info("✅ Get characters no filters test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_comics_no_filters(self):
         """Test getting comics with no filters (all optional parameters None)."""
+        logger.info("Testing getting comics with no filters")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -610,10 +676,14 @@ class TestEventsEndpoint:
                 ComicListResponse,
             )
             assert result == mock_response
+            
+            logger.info("✅ Get comics no filters test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_creators_no_filters(self):
         """Test getting creators with no filters (all optional parameters None)."""
+        logger.info("Testing getting creators with no filters")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -636,10 +706,14 @@ class TestEventsEndpoint:
                 CreatorListResponse,
             )
             assert result == mock_response
+            
+            logger.info("✅ Get creators no filters test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_series_no_filters(self):
         """Test getting series with no filters (all optional parameters None)."""
+        logger.info("Testing getting series with no filters")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -662,10 +736,14 @@ class TestEventsEndpoint:
                 SeriesListResponse,
             )
             assert result == mock_response
+            
+            logger.info("✅ Get series no filters test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_stories_no_filters(self):
         """Test getting stories with no filters (all optional parameters None)."""
+        logger.info("Testing getting stories with no filters")
+        
         endpoint = EventsEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",

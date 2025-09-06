@@ -5,8 +5,16 @@ including the main Event model and all associated list structures. Tests cover
 creation, validation, field access, and error handling scenarios.
 """
 
+import logging
 import pytest
 from pydantic import ValidationError
+
+# Configure logging for tests
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 from marvelpy.models.common import (
     URL,
@@ -37,6 +45,8 @@ class TestCharacterList:
 
     def test_character_list_creation(self):
         """Test creating a CharacterList with valid data."""
+        logger.info("Testing CharacterList creation with valid data")
+        
         character_list = CharacterList(
             available=50,
             returned=20,
@@ -57,9 +67,13 @@ class TestCharacterList:
         )
         assert len(character_list.items) == 1
         assert character_list.items[0].name == "Iron Man"
+        
+        logger.info("✅ CharacterList creation test completed successfully")
 
     def test_character_list_empty_items(self):
         """Test creating a CharacterList with empty items list."""
+        logger.info("Testing CharacterList creation with empty items list")
+        
         character_list = CharacterList(
             available=0,
             returned=0,
@@ -70,14 +84,20 @@ class TestCharacterList:
         assert character_list.available == 0
         assert character_list.returned == 0
         assert len(character_list.items) == 0
+        
+        logger.info("✅ CharacterList empty items test completed successfully")
 
     def test_character_list_missing_required_fields(self):
         """Test that CharacterList requires all mandatory fields."""
+        logger.info("Testing CharacterList requires all mandatory fields")
+        
         with pytest.raises(ValidationError) as exc_info:
             CharacterList(available=50)
 
         errors = exc_info.value.errors()
         assert len(errors) >= 2  # Should have errors for missing 'returned' and 'collectionURI'
+        
+        logger.info("✅ CharacterList missing required fields test completed successfully")
 
 
 class TestComicList:
@@ -89,6 +109,8 @@ class TestComicList:
 
     def test_comic_list_creation(self):
         """Test creating a ComicList with valid data."""
+        logger.info("Testing ComicList creation with valid data")
+        
         comic_list = ComicList(
             available=100,
             returned=25,
@@ -106,9 +128,13 @@ class TestComicList:
         assert comic_list.collection_uri == "http://gateway.marvel.com/v1/public/events/269/comics"
         assert len(comic_list.items) == 1
         assert comic_list.items[0].name == "Avengers (1963) #1"
+        
+        logger.info("✅ ComicList creation test completed successfully")
 
     def test_comic_list_empty_items(self):
         """Test creating a ComicList with empty items list."""
+        logger.info("Testing ComicList creation with empty items list")
+        
         comic_list = ComicList(
             available=0,
             returned=0,
@@ -119,6 +145,8 @@ class TestComicList:
         assert comic_list.available == 0
         assert comic_list.returned == 0
         assert len(comic_list.items) == 0
+        
+        logger.info("✅ ComicList empty items test completed successfully")
 
 
 class TestCreatorList:
@@ -131,6 +159,8 @@ class TestCreatorList:
 
     def test_creator_list_creation(self):
         """Test creating a CreatorList with valid data."""
+        logger.info("Testing CreatorList creation with valid data")
+        
         creator_list = CreatorList(
             available=25,
             returned=10,
@@ -152,9 +182,13 @@ class TestCreatorList:
         assert len(creator_list.items) == 1
         assert creator_list.items[0].name == "Stan Lee"
         assert creator_list.items[0].role == "writer"
+        
+        logger.info("✅ CreatorList creation test completed successfully")
 
     def test_creator_list_empty_items(self):
         """Test creating a CreatorList with empty items list."""
+        logger.info("Testing CreatorList creation with empty items list")
+        
         creator_list = CreatorList(
             available=0,
             returned=0,
@@ -165,6 +199,8 @@ class TestCreatorList:
         assert creator_list.available == 0
         assert creator_list.returned == 0
         assert len(creator_list.items) == 0
+        
+        logger.info("✅ CreatorList empty items test completed successfully")
 
 
 class TestSeriesList:
@@ -176,6 +212,8 @@ class TestSeriesList:
 
     def test_series_list_creation(self):
         """Test creating a SeriesList with valid data."""
+        logger.info("Testing SeriesList creation with valid data")
+        
         series_list = SeriesList(
             available=15,
             returned=5,
@@ -187,9 +225,13 @@ class TestSeriesList:
         assert series_list.returned == 5
         assert series_list.collection_uri == "http://gateway.marvel.com/v1/public/events/269/series"
         assert len(series_list.items) == 0
+        
+        logger.info("✅ SeriesList creation test completed successfully")
 
     def test_series_list_with_items(self):
         """Test creating a SeriesList with items."""
+        logger.info("Testing SeriesList creation with items")
+        
         from marvelpy.models.common import SeriesSummary
 
         series_list = SeriesList(
@@ -206,6 +248,8 @@ class TestSeriesList:
 
         assert len(series_list.items) == 1
         assert series_list.items[0].name == "Avengers (1998 - 2004)"
+        
+        logger.info("✅ SeriesList with items test completed successfully")
 
 
 class TestStoryList:
@@ -217,6 +261,8 @@ class TestStoryList:
 
     def test_story_list_creation(self):
         """Test creating a StoryList with valid data."""
+        logger.info("Testing StoryList creation with valid data")
+        
         story_list = StoryList(
             available=200,
             returned=50,
@@ -228,9 +274,13 @@ class TestStoryList:
         assert story_list.returned == 50
         assert story_list.collection_uri == "http://gateway.marvel.com/v1/public/events/269/stories"
         assert len(story_list.items) == 0
+        
+        logger.info("✅ StoryList creation test completed successfully")
 
     def test_story_list_with_items(self):
         """Test creating a StoryList with items."""
+        logger.info("Testing StoryList creation with items")
+        
         from marvelpy.models.common import StorySummary
 
         story_list = StoryList(
@@ -249,6 +299,8 @@ class TestStoryList:
         assert len(story_list.items) == 1
         assert story_list.items[0].name == "Cover #1"
         assert story_list.items[0].type == "cover"
+        
+        logger.info("✅ StoryList with items test completed successfully")
 
 
 class TestEvent:
@@ -260,6 +312,8 @@ class TestEvent:
 
     def test_event_creation_minimal(self):
         """Test creating an Event with minimal required data."""
+        logger.info("Testing Event creation with minimal required data")
+        
         event = Event(
             id=269,
             title="Secret Invasion",
@@ -310,9 +364,13 @@ class TestEvent:
         assert event.thumbnail is None
         assert event.next is None
         assert event.previous is None
+        
+        logger.info("✅ Event creation minimal test completed successfully")
 
     def test_event_creation_with_optional_fields(self):
         """Test creating an Event with all optional fields."""
+        logger.info("Testing Event creation with all optional fields")
+        
         thumbnail = Image(
             path="http://i.annihil.us/u/prod/marvel/i/mg/9/c0/527bb7b37ff55", extension="jpg"
         )
@@ -380,17 +438,25 @@ class TestEvent:
         assert event.previous.name == "Previous Event"
         assert len(event.urls) == 1
         assert event.urls[0].type == "detail"
+        
+        logger.info("✅ Event creation with optional fields test completed successfully")
 
     def test_event_missing_required_fields(self):
         """Test that Event requires all mandatory fields."""
+        logger.info("Testing Event requires all mandatory fields")
+        
         with pytest.raises(ValidationError) as exc_info:
             Event(id=269, title="Secret Invasion")
 
         errors = exc_info.value.errors()
         assert len(errors) >= 5  # Should have errors for missing required fields
+        
+        logger.info("✅ Event missing required fields test completed successfully")
 
     def test_event_field_access(self):
         """Test accessing Event fields after creation."""
+        logger.info("Testing accessing Event fields after creation")
+        
         event = Event(
             id=269,
             title="Secret Invasion",
@@ -437,6 +503,8 @@ class TestEvent:
         assert isinstance(event.series, SeriesList)
         assert isinstance(event.characters, CharacterList)
         assert isinstance(event.creators, CreatorList)
+        
+        logger.info("✅ Event field access test completed successfully")
 
 
 class TestEventListResponse:
@@ -448,6 +516,8 @@ class TestEventListResponse:
 
     def test_event_list_response_creation(self):
         """Test creating an EventListResponse with valid data."""
+        logger.info("Testing EventListResponse creation with valid data")
+        
         from marvelpy.models.base import DataContainer
 
         event = Event(
@@ -504,9 +574,13 @@ class TestEventListResponse:
         assert response.status == "Ok"
         assert response.data.count == 1
         assert response.data.results[0].title == "Secret Invasion"
+        
+        logger.info("✅ EventListResponse creation test completed successfully")
 
     def test_event_list_response_empty_results(self):
         """Test creating an EventListResponse with empty results."""
+        logger.info("Testing EventListResponse creation with empty results")
+        
         from marvelpy.models.base import DataContainer
 
         response = EventListResponse(
@@ -521,6 +595,8 @@ class TestEventListResponse:
 
         assert response.data.count == 0
         assert len(response.data.results) == 0
+        
+        logger.info("✅ EventListResponse empty results test completed successfully")
 
 
 class TestEventResponse:
@@ -532,6 +608,8 @@ class TestEventResponse:
 
     def test_event_response_creation(self):
         """Test creating an EventResponse with valid data."""
+        logger.info("Testing EventResponse creation with valid data")
+        
         event = Event(
             id=269,
             title="Secret Invasion",
@@ -586,11 +664,17 @@ class TestEventResponse:
         assert response.status == "Ok"
         assert response.data.title == "Secret Invasion"
         assert response.data.id == 269
+        
+        logger.info("✅ EventResponse creation test completed successfully")
 
     def test_event_response_missing_required_fields(self):
         """Test that EventResponse requires all mandatory fields."""
+        logger.info("Testing EventResponse requires all mandatory fields")
+        
         with pytest.raises(ValidationError) as exc_info:
             EventResponse(code=200)
 
         errors = exc_info.value.errors()
         assert len(errors) >= 5  # Should have errors for missing required fields
+        
+        logger.info("✅ EventResponse missing required fields test completed successfully")

@@ -5,8 +5,16 @@ used in Marvel API responses. These tests verify proper validation, field
 handling, and data integrity for character structures.
 """
 
+import logging
 import pytest
 from pydantic import ValidationError
+
+# Configure logging for tests
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 from marvelpy.models.character import (
     Character,
@@ -47,6 +55,7 @@ class TestComicList:
             - Field values are stored and accessible as expected
             - Model can be instantiated with valid data
         """
+        logger.info("Testing ComicList creation with required fields")
         comic_list: ComicList = ComicList(
             available=100,
             returned=20,
@@ -80,8 +89,12 @@ class TestComicList:
             - Error message indicates which fields are missing
             - Model creation fails gracefully with clear error information
         """
+        logger.info("Testing ComicList raises ValidationError for missing required fields")
+        
         with pytest.raises(ValidationError):
             ComicList(available=100, returned=20)  # Missing collectionURI and items
+        
+        logger.info("✅ ComicList missing required fields test completed successfully")
 
     def test_comic_list_empty_items(self):
         """Test ComicList handles empty items list correctly.
@@ -95,6 +108,8 @@ class TestComicList:
             - Available and returned can be zero
             - Items list is accessible and empty
         """
+        logger.info("Testing ComicList handles empty items list correctly")
+        
         comic_list: ComicList = ComicList(
             available=0,
             returned=0,
@@ -105,6 +120,8 @@ class TestComicList:
         assert comic_list.available == 0
         assert comic_list.returned == 0
         assert comic_list.items == []
+        
+        logger.info("✅ ComicList empty items test completed successfully")
 
 
 class TestStoryList:
@@ -127,6 +144,8 @@ class TestStoryList:
             - Field values are stored and accessible as expected
             - Model can be instantiated with valid data
         """
+        logger.info("Testing StoryList can be created with required fields")
+        
         story_list: StoryList = StoryList(
             available=50,
             returned=10,
@@ -148,6 +167,8 @@ class TestStoryList:
         )
         assert len(story_list.items) == 1
         assert story_list.items[0].name == "Cover #19947"
+        
+        logger.info("✅ StoryList creation test completed successfully")
 
     def test_story_list_missing_required_fields(self):
         """Test StoryList raises ValidationError for missing required fields.
@@ -161,8 +182,12 @@ class TestStoryList:
             - Error message indicates which fields are missing
             - Model creation fails gracefully with clear error information
         """
+        logger.info("Testing StoryList raises ValidationError for missing required fields")
+        
         with pytest.raises(ValidationError):
             StoryList(available=50, returned=10)  # Missing collectionURI and items
+        
+        logger.info("✅ StoryList missing required fields test completed successfully")
 
 
 class TestEventList:
@@ -185,6 +210,8 @@ class TestEventList:
             - Field values are stored and accessible as expected
             - Model can be instantiated with valid data
         """
+        logger.info("Testing EventList can be created with required fields")
+        
         event_list: EventList = EventList(
             available=25,
             returned=5,
@@ -205,6 +232,8 @@ class TestEventList:
         )
         assert len(event_list.items) == 1
         assert event_list.items[0].name == "Secret Invasion"
+        
+        logger.info("✅ EventList creation test completed successfully")
 
     def test_event_list_missing_required_fields(self):
         """Test EventList raises ValidationError for missing required fields.
@@ -218,8 +247,12 @@ class TestEventList:
             - Error message indicates which fields are missing
             - Model creation fails gracefully with clear error information
         """
+        logger.info("Testing EventList raises ValidationError for missing required fields")
+        
         with pytest.raises(ValidationError):
             EventList(available=25, returned=5)  # Missing collectionURI and items
+        
+        logger.info("✅ EventList missing required fields test completed successfully")
 
 
 class TestSeriesList:
@@ -242,6 +275,8 @@ class TestSeriesList:
             - Field values are stored and accessible as expected
             - Model can be instantiated with valid data
         """
+        logger.info("Testing SeriesList can be created with required fields")
+        
         series_list: SeriesList = SeriesList(
             available=75,
             returned=15,
@@ -262,6 +297,8 @@ class TestSeriesList:
         )
         assert len(series_list.items) == 1
         assert series_list.items[0].name == "Avengers (1998 - 2004)"
+        
+        logger.info("✅ SeriesList creation test completed successfully")
 
     def test_series_list_missing_required_fields(self):
         """Test SeriesList raises ValidationError for missing required fields.
@@ -275,8 +312,12 @@ class TestSeriesList:
             - Error message indicates which fields are missing
             - Model creation fails gracefully with clear error information
         """
+        logger.info("Testing SeriesList raises ValidationError for missing required fields")
+        
         with pytest.raises(ValidationError):
             SeriesList(available=75, returned=15)  # Missing collectionURI and items
+        
+        logger.info("✅ SeriesList missing required fields test completed successfully")
 
 
 class TestCharacter:
@@ -300,6 +341,8 @@ class TestCharacter:
             - Field values are stored and accessible as expected
             - Model can be instantiated with valid data
         """
+        logger.info("Testing Character can be created with required fields")
+        
         character: Character = Character(
             id=1009368,
             name="Iron Man",
@@ -357,6 +400,8 @@ class TestCharacter:
         assert character.stories.available == 50
         assert character.events.available == 25
         assert character.series.available == 75
+        
+        logger.info("✅ Character creation test completed successfully")
 
     def test_character_missing_required_fields(self):
         """Test Character raises ValidationError for missing required fields.
@@ -370,12 +415,16 @@ class TestCharacter:
             - Error message indicates which fields are missing
             - Model creation fails gracefully with clear error information
         """
+        logger.info("Testing Character raises ValidationError for missing required fields")
+        
         with pytest.raises(ValidationError):
             Character(
                 id=1009368,
                 name="Iron Man",
                 # Missing other required fields
             )
+        
+        logger.info("✅ Character missing required fields test completed successfully")
 
     def test_character_optional_thumbnail(self):
         """Test Character handles optional thumbnail field correctly.
@@ -389,6 +438,8 @@ class TestCharacter:
             - Thumbnail field is accessible and None
             - Other fields remain unaffected
         """
+        logger.info("Testing Character handles optional thumbnail field correctly")
+        
         character: Character = Character(
             id=1009368,
             name="Iron Man",
@@ -425,6 +476,8 @@ class TestCharacter:
 
         assert character.thumbnail is None
         assert character.name == "Iron Man"
+        
+        logger.info("✅ Character optional thumbnail test completed successfully")
 
     def test_character_empty_urls(self):
         """Test Character handles empty URLs list correctly.
@@ -438,6 +491,8 @@ class TestCharacter:
             - URLs field is accessible and empty
             - Other fields remain unaffected
         """
+        logger.info("Testing Character handles empty URLs list correctly")
+        
         character: Character = Character(
             id=1009368,
             name="Iron Man",
@@ -474,6 +529,8 @@ class TestCharacter:
 
         assert character.urls == []
         assert character.name == "Iron Man"
+        
+        logger.info("✅ Character empty URLs test completed successfully")
 
 
 class TestCharacterResponse:
@@ -496,6 +553,8 @@ class TestCharacterResponse:
             - Character data is properly nested in the response
             - Model can be instantiated with valid data
         """
+        logger.info("Testing CharacterResponse can be created with required fields")
+        
         character = Character(
             id=1009368,
             name="Iron Man",
@@ -545,6 +604,8 @@ class TestCharacterResponse:
         assert response.copyright == "© 2024 MARVEL"
         assert response.data.name == "Iron Man"
         assert response.data.id == 1009368
+        
+        logger.info("✅ CharacterResponse creation test completed successfully")
 
     def test_character_response_missing_required_fields(self):
         """Test CharacterResponse raises ValidationError for missing required fields.
@@ -558,8 +619,12 @@ class TestCharacterResponse:
             - Error message indicates which fields are missing
             - Model creation fails gracefully with clear error information
         """
+        logger.info("Testing CharacterResponse raises ValidationError for missing required fields")
+        
         with pytest.raises(ValidationError):
             CharacterResponse(code=200, status="Ok")  # Missing other required fields
+        
+        logger.info("✅ CharacterResponse missing required fields test completed successfully")
 
 
 class TestCharacterListResponse:
@@ -582,6 +647,8 @@ class TestCharacterListResponse:
             - Character list data is properly nested in the response
             - Model can be instantiated with valid data
         """
+        logger.info("Testing CharacterListResponse can be created with required fields")
+        
         from marvelpy.models.base import DataContainer
 
         character = Character(
@@ -643,6 +710,8 @@ class TestCharacterListResponse:
         assert response.data.count == 1
         assert len(response.data.results) == 1
         assert response.data.results[0].name == "Iron Man"
+        
+        logger.info("✅ CharacterListResponse creation test completed successfully")
 
     def test_character_list_response_missing_required_fields(self):
         """Test CharacterListResponse raises ValidationError for missing required fields.
@@ -656,5 +725,9 @@ class TestCharacterListResponse:
             - Error message indicates which fields are missing
             - Model creation fails gracefully with clear error information
         """
+        logger.info("Testing CharacterListResponse raises ValidationError for missing required fields")
+        
         with pytest.raises(ValidationError):
             CharacterListResponse(code=200, status="Ok")  # Missing other required fields
+        
+        logger.info("✅ CharacterListResponse missing required fields test completed successfully")
