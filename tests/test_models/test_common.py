@@ -5,8 +5,16 @@ across Marvel API endpoints. These tests verify proper validation, field
 handling, and data integrity for shared structures.
 """
 
+import logging
 import pytest
 from pydantic import ValidationError
+
+# Configure logging for tests
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 from marvelpy.models.common import (
     URL,
@@ -43,12 +51,14 @@ class TestImage:
             - Field values are stored and accessible as expected
             - Model can be instantiated with valid data
         """
+        logger.info("Testing Image creation with required fields")
         image: Image = Image(
             path="http://i.annihil.us/u/prod/marvel/i/mg/9/c0/527bb7b37ff55", extension="jpg"
         )
 
         assert image.path == "http://i.annihil.us/u/prod/marvel/i/mg/9/c0/527bb7b37ff55"
         assert image.extension == "jpg"
+        logger.info("✅ Image creation test completed successfully")
 
     def test_image_missing_required_fields(self):
         """Test Image raises ValidationError for missing required fields.
@@ -62,11 +72,13 @@ class TestImage:
             - Error message indicates which fields are missing
             - Model creation fails gracefully with clear error information
         """
+        logger.info("Testing image missing required fields validation")
         with pytest.raises(ValidationError):
             Image(path="http://example.com/image")  # Missing extension
 
         with pytest.raises(ValidationError):
             Image(extension="jpg")  # Missing path
+        logger.info("✅ Image missing required fields test completed successfully")
 
     def test_image_full_url_construction(self):
         """Test Image can be used to construct full image URLs.
@@ -80,6 +92,7 @@ class TestImage:
             - Full URL construction works correctly
             - Image data is suitable for URL generation
         """
+        logger.info("Testing image full URL construction")
         image: Image = Image(
             path="http://i.annihil.us/u/prod/marvel/i/mg/9/c0/527bb7b37ff55", extension="jpg"
         )
@@ -88,6 +101,7 @@ class TestImage:
         expected_url = "http://i.annihil.us/u/prod/marvel/i/mg/9/c0/527bb7b37ff55.jpg"
 
         assert full_url == expected_url
+        logger.info("✅ Image full URL construction test completed successfully")
 
 
 class TestURL:
@@ -110,12 +124,14 @@ class TestURL:
             - Field values are stored and accessible as expected
             - Model can be instantiated with valid data
         """
+        logger.info("Testing URL creation with required fields")
         url: URL = URL(
             type="detail", url="http://marvel.com/characters/9/iron_man?utm_campaign=apiRef"
         )
 
         assert url.type == "detail"
         assert url.url == "http://marvel.com/characters/9/iron_man?utm_campaign=apiRef"
+        logger.info("✅ URL creation test completed successfully")
 
     def test_url_missing_required_fields(self):
         """Test URL raises ValidationError for missing required fields.
@@ -129,11 +145,13 @@ class TestURL:
             - Error message indicates which fields are missing
             - Model creation fails gracefully with clear error information
         """
+        logger.info("Testing URL missing required fields validation")
         with pytest.raises(ValidationError):
             URL(type="detail")  # Missing url
 
         with pytest.raises(ValidationError):
             URL(url="http://example.com")  # Missing type
+        logger.info("✅ URL missing required fields test completed successfully")
 
     def test_url_different_types(self):
         """Test URL handles different URL types correctly.
@@ -147,6 +165,7 @@ class TestURL:
             - URL values are preserved regardless of type
             - Model handles various URL formats appropriately
         """
+        logger.info("Testing URL different types handling")
         url_types = ["detail", "wiki", "comiclink", "purchase"]
         base_url = "http://marvel.com/test"
 
@@ -154,6 +173,7 @@ class TestURL:
             url: URL = URL(type=url_type, url=base_url)
             assert url.type == url_type
             assert url.url == base_url
+        logger.info("✅ URL different types test completed successfully")
 
 
 class TestTextObject:
@@ -176,6 +196,7 @@ class TestTextObject:
             - Field values are stored and accessible as expected
             - Model can be instantiated with valid data
         """
+        logger.info("Testing text object creation with required fields")
         text_obj: TextObject = TextObject(
             type="description",
             language="en-us",
@@ -185,6 +206,7 @@ class TestTextObject:
         assert text_obj.type == "description"
         assert text_obj.language == "en-us"
         assert text_obj.text == "Wounded, captured and forced to build a weapon by his enemies..."
+        logger.info("✅ Text object creation test completed successfully")
 
     def test_text_object_missing_required_fields(self):
         """Test TextObject raises ValidationError for missing required fields.
@@ -198,6 +220,7 @@ class TestTextObject:
             - Error message indicates which fields are missing
             - Model creation fails gracefully with clear error information
         """
+        logger.info("Testing text object missing required fields validation")
         with pytest.raises(ValidationError):
             TextObject(type="description", language="en-us")  # Missing text
 
@@ -206,6 +229,7 @@ class TestTextObject:
 
         with pytest.raises(ValidationError):
             TextObject(language="en-us", text="Some text")  # Missing type
+        logger.info("✅ Text object missing required fields test completed successfully")
 
     def test_text_object_different_languages(self):
         """Test TextObject handles different languages correctly.
@@ -219,6 +243,7 @@ class TestTextObject:
             - Text content is preserved regardless of language
             - Model handles various language formats appropriately
         """
+        logger.info("Testing text object different languages handling")
         languages = ["en-us", "es", "fr", "de", "ja"]
         text_content = "Test description"
 
@@ -228,6 +253,7 @@ class TestTextObject:
             )
             assert text_obj.language == language
             assert text_obj.text == text_content
+        logger.info("✅ Text object different languages test completed successfully")
 
 
 class TestDate:
@@ -250,10 +276,12 @@ class TestDate:
             - Field values are stored and accessible as expected
             - Model can be instantiated with valid data
         """
+        logger.info("Testing date creation with required fields")
         date_obj: Date = Date(type="onsaleDate", date="2014-04-29T00:00:00-0400")
 
         assert date_obj.type == "onsaleDate"
         assert date_obj.date == "2014-04-29T00:00:00-0400"
+        logger.info("✅ Date creation test completed successfully")
 
     def test_date_missing_required_fields(self):
         """Test Date raises ValidationError for missing required fields.
@@ -267,11 +295,13 @@ class TestDate:
             - Error message indicates which fields are missing
             - Model creation fails gracefully with clear error information
         """
+        logger.info("Testing date missing required fields validation")
         with pytest.raises(ValidationError):
             Date(type="onsaleDate")  # Missing date
 
         with pytest.raises(ValidationError):
             Date(date="2014-04-29T00:00:00-0400")  # Missing type
+        logger.info("✅ Date missing required fields test completed successfully")
 
     def test_date_different_types(self):
         """Test Date handles different date types correctly.
@@ -285,6 +315,7 @@ class TestDate:
             - Date values are preserved regardless of type
             - Model handles various date formats appropriately
         """
+        logger.info("Testing date different types handling")
         date_types = ["onsaleDate", "focDate", "unlimitedDate"]
         date_value = "2014-04-29T00:00:00-0400"
 
@@ -292,6 +323,7 @@ class TestDate:
             date_obj: Date = Date(type=date_type, date=date_value)
             assert date_obj.type == date_type
             assert date_obj.date == date_value
+        logger.info("✅ Date different types test completed successfully")
 
 
 class TestPrice:
@@ -314,10 +346,12 @@ class TestPrice:
             - Field values are stored and accessible as expected
             - Model can be instantiated with valid data
         """
+        logger.info("Testing price creation with required fields")
         price_obj: Price = Price(type="printPrice", price=3.99)
 
         assert price_obj.type == "printPrice"
         assert price_obj.price == 3.99
+        logger.info("✅ Price creation test completed successfully")
 
     def test_price_missing_required_fields(self):
         """Test Price raises ValidationError for missing required fields.
@@ -331,11 +365,13 @@ class TestPrice:
             - Error message indicates which fields are missing
             - Model creation fails gracefully with clear error information
         """
+        logger.info("Testing price missing required fields validation")
         with pytest.raises(ValidationError):
             Price(type="printPrice")  # Missing price
 
         with pytest.raises(ValidationError):
             Price(price=3.99)  # Missing type
+        logger.info("✅ Price missing required fields test completed successfully")
 
     def test_price_different_values(self):
         """Test Price handles different price values correctly.
@@ -349,12 +385,14 @@ class TestPrice:
             - Price values are preserved as floats
             - Model handles various numeric formats appropriately
         """
+        logger.info("Testing price different values handling")
         price_values = [0.0, 1.99, 3.99, 9.99, 99.99]
 
         for price_value in price_values:
             price_obj: Price = Price(type="printPrice", price=price_value)
             assert price_obj.price == price_value
             assert isinstance(price_obj.price, float)
+        logger.info("✅ Price different values test completed successfully")
 
 
 class TestSummaryModels:
@@ -378,6 +416,7 @@ class TestSummaryModels:
             - Field values are stored and accessible as expected
             - Model can be instantiated with valid data
         """
+        logger.info("Testing creator summary creation with required fields")
         creator: CreatorSummary = CreatorSummary(
             resourceURI="http://gateway.marvel.com/v1/public/creators/30",
             name="Stan Lee",
@@ -387,6 +426,7 @@ class TestSummaryModels:
         assert creator.resource_uri == "http://gateway.marvel.com/v1/public/creators/30"
         assert creator.name == "Stan Lee"
         assert creator.role == "writer"
+        logger.info("✅ Creator summary creation test completed successfully")
 
     def test_character_summary_creation(self):
         """Test CharacterSummary can be created with required fields.
@@ -400,12 +440,14 @@ class TestSummaryModels:
             - Field values are stored and accessible as expected
             - Model can be instantiated with valid data
         """
+        logger.info("Testing character summary creation with required fields")
         character: CharacterSummary = CharacterSummary(
             resourceURI="http://gateway.marvel.com/v1/public/characters/1009368", name="Iron Man"
         )
 
         assert character.resource_uri == "http://gateway.marvel.com/v1/public/characters/1009368"
         assert character.name == "Iron Man"
+        logger.info("✅ Character summary creation test completed successfully")
 
     def test_story_summary_creation(self):
         """Test StorySummary can be created with required fields.
@@ -419,6 +461,7 @@ class TestSummaryModels:
             - Field values are stored and accessible as expected
             - Model can be instantiated with valid data
         """
+        logger.info("Testing story summary creation with required fields")
         story: StorySummary = StorySummary(
             resourceURI="http://gateway.marvel.com/v1/public/stories/19947",
             name="Cover #19947",
@@ -428,6 +471,7 @@ class TestSummaryModels:
         assert story.resource_uri == "http://gateway.marvel.com/v1/public/stories/19947"
         assert story.name == "Cover #19947"
         assert story.type == "cover"
+        logger.info("✅ Story summary creation test completed successfully")
 
     def test_event_summary_creation(self):
         """Test EventSummary can be created with required fields.
@@ -441,12 +485,14 @@ class TestSummaryModels:
             - Field values are stored and accessible as expected
             - Model can be instantiated with valid data
         """
+        logger.info("Testing event summary creation with required fields")
         event: EventSummary = EventSummary(
             resourceURI="http://gateway.marvel.com/v1/public/events/269", name="Secret Invasion"
         )
 
         assert event.resource_uri == "http://gateway.marvel.com/v1/public/events/269"
         assert event.name == "Secret Invasion"
+        logger.info("✅ Event summary creation test completed successfully")
 
     def test_series_summary_creation(self):
         """Test SeriesSummary can be created with required fields.
@@ -460,6 +506,7 @@ class TestSummaryModels:
             - Field values are stored and accessible as expected
             - Model can be instantiated with valid data
         """
+        logger.info("Testing series summary creation with required fields")
         series: SeriesSummary = SeriesSummary(
             resourceURI="http://gateway.marvel.com/v1/public/series/1945",
             name="Avengers (1998 - 2004)",
@@ -467,6 +514,7 @@ class TestSummaryModels:
 
         assert series.resource_uri == "http://gateway.marvel.com/v1/public/series/1945"
         assert series.name == "Avengers (1998 - 2004)"
+        logger.info("✅ Series summary creation test completed successfully")
 
     def test_comic_summary_creation(self):
         """Test ComicSummary can be created with required fields.
@@ -480,6 +528,7 @@ class TestSummaryModels:
             - Field values are stored and accessible as expected
             - Model can be instantiated with valid data
         """
+        logger.info("Testing comic summary creation with required fields")
         comic: ComicSummary = ComicSummary(
             resourceURI="http://gateway.marvel.com/v1/public/comics/21366",
             name="Avengers (1963) #1",
@@ -487,6 +536,7 @@ class TestSummaryModels:
 
         assert comic.resource_uri == "http://gateway.marvel.com/v1/public/comics/21366"
         assert comic.name == "Avengers (1963) #1"
+        logger.info("✅ Comic summary creation test completed successfully")
 
     def test_summary_models_missing_required_fields(self):
         """Test summary models raise ValidationError for missing required fields.
@@ -500,6 +550,7 @@ class TestSummaryModels:
             - Error message indicates which fields are missing
             - Model creation fails gracefully with clear error information
         """
+        logger.info("Testing summary models missing required fields validation")
         # Test CreatorSummary missing fields
         with pytest.raises(ValidationError):
             CreatorSummary(name="Stan Lee", role="writer")  # Missing resourceURI
@@ -523,3 +574,4 @@ class TestSummaryModels:
         # Test ComicSummary missing fields
         with pytest.raises(ValidationError):
             ComicSummary(name="Avengers (1963) #1")  # Missing resourceURI
+        logger.info("✅ Summary models missing required fields test completed successfully")

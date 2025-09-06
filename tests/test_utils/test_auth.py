@@ -1,6 +1,14 @@
 """Tests for authentication utilities."""
 
+import logging
 from unittest.mock import patch
+
+# Configure logging for tests
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 from marvelpy.utils.auth import generate_auth_params
 
@@ -10,6 +18,7 @@ class TestAuth:
 
     def test_generate_auth_params(self):
         """Test authentication parameter generation."""
+        logger.info("Testing authentication parameter generation")
         public_key = "test_public_key"
         private_key = "test_private_key"
 
@@ -24,9 +33,11 @@ class TestAuth:
             assert params["ts"] == "1234567890"
             assert isinstance(params["hash"], str)
             assert len(params["hash"]) == 32  # MD5 hash length
+            logger.info("✅ Authentication parameter generation test completed successfully")
 
     def test_generate_auth_params_different_timestamps(self):
         """Test that different timestamps generate different hashes."""
+        logger.info("Testing authentication parameter generation with different timestamps")
         public_key = "test_public_key"
         private_key = "test_private_key"
 
@@ -39,9 +50,11 @@ class TestAuth:
         assert params1["ts"] != params2["ts"]
         assert params1["hash"] != params2["hash"]
         assert params1["apikey"] == params2["apikey"]
+        logger.info("✅ Authentication parameter different timestamps test completed successfully")
 
     def test_generate_auth_params_different_keys(self):
         """Test that different keys generate different hashes."""
+        logger.info("Testing authentication parameter generation with different keys")
         public_key1 = "test_public_key_1"
         private_key1 = "test_private_key_1"
         public_key2 = "test_public_key_2"
@@ -54,9 +67,11 @@ class TestAuth:
         assert params1["apikey"] != params2["apikey"]
         assert params1["hash"] != params2["hash"]
         assert params1["ts"] == params2["ts"]  # Same timestamp
+        logger.info("✅ Authentication parameter different keys test completed successfully")
 
     def test_generate_auth_params_hash_format(self):
         """Test that the generated hash is a valid MD5 hash."""
+        logger.info("Testing authentication parameter hash format validation")
         public_key = "test_public_key"
         private_key = "test_private_key"
 
@@ -67,9 +82,11 @@ class TestAuth:
         hash_value = params["hash"]
         assert len(hash_value) == 32
         assert all(c in "0123456789abcdef" for c in hash_value)
+        logger.info("✅ Authentication parameter hash format test completed successfully")
 
     def test_generate_auth_params_consistency(self):
         """Test that the same inputs generate the same hash."""
+        logger.info("Testing authentication parameter generation consistency")
         public_key = "test_public_key"
         private_key = "test_private_key"
 
@@ -80,3 +97,4 @@ class TestAuth:
         assert params1["hash"] == params2["hash"]
         assert params1["ts"] == params2["ts"]
         assert params1["apikey"] == params2["apikey"]
+        logger.info("✅ Authentication parameter consistency test completed successfully")
