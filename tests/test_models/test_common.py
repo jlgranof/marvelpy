@@ -5,7 +5,6 @@ across Marvel API endpoints. These tests verify proper validation, field
 handling, and data integrity for shared structures.
 """
 
-
 import pytest
 from pydantic import ValidationError
 

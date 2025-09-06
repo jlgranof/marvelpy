@@ -5,7 +5,6 @@ used in Marvel API responses. These tests verify proper validation, field
 handling, and data integrity for character structures.
 """
 
-
 import pytest
 from pydantic import ValidationError
 

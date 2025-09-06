@@ -4,7 +4,6 @@ This module contains comprehensive tests for all Marvel API exception classes,
 including base exception functionality and specific exception types.
 """
 
-
 from marvelpy.utils.exceptions import (
     MarvelAPIError,
     MarvelAuthenticationError,
