@@ -8,10 +8,12 @@ from .base import BaseEndpoint
 from .characters import CharactersEndpoint
 from .comics import ComicsEndpoint
 from .events import EventsEndpoint
+from .series import SeriesEndpoint
 
 __all__ = [
     "BaseEndpoint",
     "CharactersEndpoint",
     "ComicsEndpoint",
     "EventsEndpoint",
+    "SeriesEndpoint",
 ]
