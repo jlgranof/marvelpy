@@ -4,12 +4,20 @@ This module contains comprehensive tests for the CharactersEndpoint class,
 including all character-related methods and their various parameters.
 """
 
+import logging
 from typing import Any, Dict
 from unittest.mock import Mock, patch
 
 import pytest
 
 from marvelpy.endpoints.characters import CharactersEndpoint
+
+# Configure logging for tests
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 from marvelpy.models.character import CharacterListResponse
 from marvelpy.models.comic import ComicListResponse
 from marvelpy.models.event import EventListResponse
@@ -22,6 +30,8 @@ class TestCharactersEndpoint:
 
     def test_init(self):
         """Test CharactersEndpoint initialization."""
+        logger.info("Testing CharactersEndpoint initialization")
+        
         endpoint = CharactersEndpoint(
             base_url="https://gateway.marvel.com",
             public_key="test_public_key",
@@ -35,6 +45,8 @@ class TestCharactersEndpoint:
         assert endpoint.private_key == "test_private_key"
         assert endpoint.timeout == 30.0
         assert endpoint.max_retries == 3
+        
+        logger.info("✅ CharactersEndpoint initialization test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_character(self):
