@@ -176,7 +176,7 @@ async def demonstrate_creators(client: MarvelClient) -> None:
         print(f"   Series: {creator.series.available}")
         print(f"   Stories: {creator.stories.available}")
         print(f"   Events: {creator.events.available}")
-        print(f"   Characters: {creator.characters.available}")
+        print(f"   Characters: {creator.characters.available if creator.characters else 0}")
 
 
 async def main() -> None:

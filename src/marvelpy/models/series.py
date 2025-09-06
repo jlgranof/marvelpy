@@ -247,14 +247,14 @@ class Series(BaseModel):
 
     id: int = Field(..., description="Unique identifier for the series")
     title: str = Field(..., description="Title of the series")
-    description: str = Field(..., description="Description of the series")
+    description: Optional[str] = Field(None, description="Description of the series")
     resource_uri: str = Field(..., alias="resourceURI", description="URI of the series resource")
     urls: List[URL] = Field(
         default_factory=list, description="List of URLs associated with the series"
     )
-    start_year: int = Field(..., description="Year the series started")
+    start_year: Optional[int] = Field(None, description="Year the series started")
     end_year: Optional[int] = Field(None, description="Year the series ended")
-    rating: str = Field(..., description="Rating of the series")
+    rating: str = Field("", description="Rating of the series")
     modified: str = Field(..., description="Date the series was last modified")
     thumbnail: Optional[Image] = Field(None, description="Series thumbnail image")
     comics: ComicList = Field(..., description="Comics that are part of this series")

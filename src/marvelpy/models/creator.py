@@ -254,7 +254,7 @@ class Creator(BaseModel):
     series: SeriesList = Field(..., description="Series that this creator has worked on")
     stories: StoryList = Field(..., description="Stories that this creator has worked on")
     events: EventList = Field(..., description="Events that this creator has worked on")
-    characters: CharacterList = Field(..., description="Characters that this creator has worked on")
+    characters: Optional[CharacterList] = Field(None, description="Characters that this creator has worked on")
 
 
 class CreatorListResponse(BaseListResponse[Creator]):
