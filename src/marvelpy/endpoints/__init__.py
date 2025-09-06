@@ -6,8 +6,10 @@ Each endpoint provides type-safe methods for accessing specific Marvel API resou
 
 from .base import BaseEndpoint
 from .characters import CharactersEndpoint
+from .comics import ComicsEndpoint
 
 __all__ = [
     "BaseEndpoint",
     "CharactersEndpoint",
+    "ComicsEndpoint",
 ]
