@@ -53,6 +53,7 @@ class TestMarvelClient:
 
     def test_client_initialization_with_custom_base_url(self):
         """Test MarvelClient initialization with custom base URL."""
+        logger.info("Testing MarvelClient initialization with custom base URL")
         custom_url = "https://custom.marvel.com"
         client = MarvelClient(
             public_key="test_public_key",
@@ -60,23 +61,28 @@ class TestMarvelClient:
             base_url=custom_url,
         )
         assert client.base_url == custom_url
+        logger.info("✅ MarvelClient initialization with custom base URL test completed successfully")
 
     @pytest.mark.asyncio
     async def test_context_manager(self, client):
         """Test async context manager."""
+        logger.info("Testing MarvelClient async context manager")
         with patch.object(client, "close") as mock_close:
             async with client as ctx_client:
                 assert ctx_client is client
             mock_close.assert_called_once()
+        logger.info("✅ MarvelClient async context manager test completed successfully")
 
     @pytest.mark.asyncio
     async def test_close(self, client):
         """Test close method (no-op since endpoints use context managers)."""
+        logger.info("Testing MarvelClient close method")
         # The close method should not raise any exceptions
         await client.close()
 
         # Since the close method is a no-op, we just verify it completes successfully
         assert True
+        logger.info("✅ MarvelClient close method test completed successfully")
 
     # ============================================================================
     # CHARACTER METHODS TESTS
@@ -85,6 +91,7 @@ class TestMarvelClient:
     @pytest.mark.asyncio
     async def test_get_character(self, client):
         """Test getting a single character by ID."""
+        logger.info("Testing MarvelClient get_character method")
         mock_character = MagicMock(spec=Character)
         mock_character.id = 1009368
         mock_character.name = "Iron Man"
@@ -94,10 +101,12 @@ class TestMarvelClient:
 
             assert result == mock_character
             client.characters.get_character.assert_called_once_with(1009368)
+        logger.info("✅ MarvelClient get_character method test completed successfully")
 
     @pytest.mark.asyncio
     async def test_list_characters(self, client):
         """Test listing characters with filtering."""
+        logger.info("Testing MarvelClient list_characters method")
         mock_response = MagicMock(spec=CharacterListResponse)
 
         with patch.object(client.characters, "list_characters", return_value=mock_response):
@@ -118,10 +127,12 @@ class TestMarvelClient:
                 stories=None,
                 order_by=None,
             )
+        logger.info("✅ MarvelClient list_characters method test completed successfully")
 
     @pytest.mark.asyncio
     async def test_search_characters(self, client):
         """Test searching for characters by name."""
+        logger.info("Testing MarvelClient search_characters method")
         mock_response = MagicMock(spec=CharacterListResponse)
 
         with patch.object(client.characters, "list_characters", return_value=mock_response):
@@ -133,10 +144,12 @@ class TestMarvelClient:
                 limit=5,
                 offset=None,
             )
+        logger.info("✅ MarvelClient search_characters method test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_character_comics(self, client):
         """Test getting comics for a character."""
+        logger.info("Testing MarvelClient get_character_comics method")
         mock_response = MagicMock(spec=ComicListResponse)
 
         with patch.object(client.characters, "get_comics", return_value=mock_response):
@@ -168,10 +181,12 @@ class TestMarvelClient:
                 collaborators=None,
                 order_by=None,
             )
+        logger.info("✅ MarvelClient get_character_comics method test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_character_events(self, client):
         """Test getting events for a character."""
+        logger.info("Testing MarvelClient get_character_events method")
         mock_response = MagicMock(spec=EventListResponse)
 
         with patch.object(client.characters, "get_events", return_value=mock_response):
@@ -191,10 +206,12 @@ class TestMarvelClient:
                 stories=None,
                 order_by=None,
             )
+        logger.info("✅ MarvelClient get_character_events method test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_character_series(self, client):
         """Test getting series for a character."""
+        logger.info("Testing MarvelClient get_character_series method")
         mock_response = MagicMock(spec=SeriesListResponse)
 
         with patch.object(client.characters, "get_series", return_value=mock_response):
@@ -217,10 +234,12 @@ class TestMarvelClient:
                 contains=None,
                 order_by=None,
             )
+        logger.info("✅ MarvelClient get_character_series method test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_character_stories(self, client):
         """Test getting stories for a character."""
+        logger.info("Testing MarvelClient get_character_stories method")
         mock_response = MagicMock(spec=StoryListResponse)
 
         with patch.object(client.characters, "get_stories", return_value=mock_response):
@@ -238,10 +257,12 @@ class TestMarvelClient:
                 creators=None,
                 order_by=None,
             )
+        logger.info("✅ MarvelClient get_character_stories method test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_character_creators(self, client):
         """Test getting creators for a character."""
+        logger.info("Testing MarvelClient get_character_creators method")
         mock_response = MagicMock(spec=CreatorListResponse)
 
         with patch.object(client.characters, "get_creators", return_value=mock_response):
@@ -259,6 +280,7 @@ class TestMarvelClient:
                 stories=None,
                 order_by=None,
             )
+        logger.info("✅ MarvelClient get_character_creators method test completed successfully")
 
     # ============================================================================
     # COMIC METHODS TESTS
@@ -267,6 +289,7 @@ class TestMarvelClient:
     @pytest.mark.asyncio
     async def test_get_comic(self, client):
         """Test getting a single comic by ID."""
+        logger.info("Testing MarvelClient get_comic method")
         mock_comic = MagicMock(spec=Comic)
         mock_comic.id = 21366
         mock_comic.title = "Avengers (1963) #1"
@@ -276,10 +299,12 @@ class TestMarvelClient:
 
             assert result == mock_comic
             client.comics.get_comic.assert_called_once_with(21366)
+        logger.info("✅ MarvelClient get_comic method test completed successfully")
 
     @pytest.mark.asyncio
     async def test_list_comics(self, client):
         """Test listing comics with filtering."""
+        logger.info("Testing MarvelClient list_comics method")
         mock_response = MagicMock(spec=ComicListResponse)
 
         with patch.object(client.comics, "list_comics", return_value=mock_response):
@@ -311,10 +336,12 @@ class TestMarvelClient:
                 collaborators=None,
                 order_by=None,
             )
+        logger.info("✅ MarvelClient list_comics method test completed successfully")
 
     @pytest.mark.asyncio
     async def test_search_comics(self, client):
         """Test searching for comics by title."""
+        logger.info("Testing MarvelClient search_comics method")
         mock_response = MagicMock(spec=ComicListResponse)
 
         with patch.object(client.comics, "list_comics", return_value=mock_response):
@@ -326,10 +353,12 @@ class TestMarvelClient:
                 limit=5,
                 offset=None,
             )
+        logger.info("✅ MarvelClient search_comics method test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_comic_characters(self, client):
         """Test getting characters for a comic."""
+        logger.info("Testing MarvelClient get_comic_characters method")
         mock_response = MagicMock(spec=CharacterListResponse)
 
         with patch.object(client.comics, "get_characters", return_value=mock_response):
@@ -348,10 +377,12 @@ class TestMarvelClient:
                 stories=None,
                 order_by=None,
             )
+        logger.info("✅ MarvelClient get_comic_characters method test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_comic_creators(self, client):
         """Test getting creators for a comic."""
+        logger.info("Testing MarvelClient get_comic_creators method")
         mock_response = MagicMock(spec=CreatorListResponse)
 
         with patch.object(client.comics, "get_creators", return_value=mock_response):
@@ -377,10 +408,12 @@ class TestMarvelClient:
                 stories=None,
                 order_by=None,
             )
+        logger.info("✅ MarvelClient get_comic_creators method test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_comic_events(self, client):
         """Test getting events for a comic."""
+        logger.info("Testing MarvelClient get_comic_events method")
         mock_response = MagicMock(spec=EventListResponse)
 
         with patch.object(client.comics, "get_events", return_value=mock_response):
@@ -400,10 +433,12 @@ class TestMarvelClient:
                 stories=None,
                 order_by=None,
             )
+        logger.info("✅ MarvelClient get_comic_events method test completed successfully")
 
     @pytest.mark.asyncio
     async def test_get_comic_stories(self, client):
         """Test getting stories for a comic."""
+        logger.info("Testing MarvelClient get_comic_stories method")
         mock_response = MagicMock(spec=StoryListResponse)
 
         with patch.object(client.comics, "get_stories", return_value=mock_response):
@@ -421,6 +456,7 @@ class TestMarvelClient:
                 characters=None,
                 order_by=None,
             )
+        logger.info("✅ MarvelClient get_comic_stories method test completed successfully")
 
     # ============================================================================
     # INTEGRATION TESTS
@@ -428,6 +464,7 @@ class TestMarvelClient:
 
     def test_all_methods_exist(self, client):
         """Test that all expected methods exist on the client."""
+        logger.info("Testing that all expected methods exist on MarvelClient")
         expected_methods = [
             # Character methods
             "get_character",
@@ -486,18 +523,22 @@ class TestMarvelClient:
             assert hasattr(client, method_name), f"Method {method_name} not found on client"
             method = getattr(client, method_name)
             assert callable(method), f"Method {method_name} is not callable"
+        logger.info("✅ All expected methods exist on MarvelClient test completed successfully")
 
     def test_endpoint_attributes_exist(self, client):
         """Test that all endpoint attributes exist and are properly initialized."""
+        logger.info("Testing that all endpoint attributes exist and are properly initialized")
         endpoints = ["characters", "comics", "events", "series", "stories", "creators"]
 
         for endpoint_name in endpoints:
             assert hasattr(client, endpoint_name), f"Endpoint {endpoint_name} not found"
             endpoint = getattr(client, endpoint_name)
             assert endpoint is not None, f"Endpoint {endpoint_name} is None"
+        logger.info("✅ All endpoint attributes exist and are properly initialized test completed successfully")
 
     def test_method_count(self, client):
         """Test that we have the expected number of methods."""
+        logger.info("Testing that MarvelClient has the expected number of methods")
         # Count public methods (excluding private methods starting with _)
         public_methods = [method for method in dir(client) if not method.startswith("_")]
 
@@ -509,3 +550,4 @@ class TestMarvelClient:
         print(f"Found {len(public_methods)} public methods:")
         for method in sorted(public_methods):
             print(f"  - {method}")
+        logger.info("✅ MarvelClient method count test completed successfully")
